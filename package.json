@@ -1,0 +1,10 @@
+{
+  "name": "IS-project-backend",
+  "version": "1.0.0",
+  "description": "This is the backend of a supermarket app",
+  "main": "app.js",
+  "repository": "git@github.com:Alssdev/IS-project-backend.git",
+  "author": "Alessandro & Gaby",
+  "license": "MIT",
+  "private": true
+}

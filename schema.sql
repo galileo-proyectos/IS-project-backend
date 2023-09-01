@@ -6,11 +6,10 @@
  */
 
 -- ================================= USERS =================================
--- Esta tabla no ha sido diseñada para segura... aún
 CREATE TABLE users (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   email VARCHAR(50) NOT NULL UNIQUE,
-  password VARCHAR(100) NOT NULL,
+  password CHAR(60) NOT NULL,
   bornDate TIMESTAMP,
   phone VARCHAR(14),
   acceptPromotions TINYINT NOT NULL DEFAULT 0,

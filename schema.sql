@@ -8,6 +8,7 @@
 -- ================================= USERS =================================
 CREATE TABLE users (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  stripUserId INT NOT NULL UNIQUE,
   email VARCHAR(50) NOT NULL UNIQUE,
   password CHAR(60) NOT NULL,
   bornDate TIMESTAMP,
@@ -19,20 +20,6 @@ CREATE TABLE users (
 
   CHECK (LENGTH(email) > 5) -- @.com,
   CHECK (LENGTH(password) > 0)
-);
-
--- Esta tabla no ha sido diseñada para segura... aún
-CREATE TABLE credit_cards (
-  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  number VARCHAR(18) NOT NULL UNIQUE,
-  expirationDate VARCHAR(7) NOT NULL,
-  ccv VARCHAR(3) NOT NULL
-  userId INT NOT NULL,
-
-  FOREIGN KEY (userId) REFERENCES users(id),
-
-  CHECK (LENGTH(number) > 0),
-  CHECK (LENGTH(serie) > 0)
 );
 
 -- ================================= PRODUCTS =================================

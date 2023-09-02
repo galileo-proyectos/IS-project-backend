@@ -5,6 +5,8 @@
   Por Alessandro y Gaby
  */
 
+CREATE DATABASE PAGOS_EXPRESS;
+
 -- ================================= USERS =================================
 CREATE TABLE users (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -16,9 +18,9 @@ CREATE TABLE users (
   acceptPromotions TINYINT NOT NULL DEFAULT 0,
   acceptTerms TINYINT NOT NULL,
   imageURL VARCHAR(100),
-  currentJWT VARCHAR(100) UNIQUE -- pendiente de revision
+  currentJWT VARCHAR(100) UNIQUE, -- pendiente de revision
 
-  CHECK (LENGTH(email) > 5) -- @.com,
+  CHECK (LENGTH(email) > 5), -- @.com,
   CHECK (LENGTH(password) > 0)
 );
 
@@ -31,9 +33,9 @@ CREATE TABLE brands (
 
 CREATE TABLE products (
   code VARCHAR(45) NOT NULL PRIMARY KEY,
-  desc VARCHAR(50) NOT NULL,
-  price DECIMAL(8, 2),
-  stock DECIMAL(8, 3),
+  name VARCHAR(50) NOT NULL,
+  price DECIMAL(8, 2) NOT NULL,
+  stock DECIMAL(8, 3) NOT NULL DEFAULT 0,
   imageURL VARCHAR(100),
   brandId INT NOT NULL,
 

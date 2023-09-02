@@ -6,7 +6,9 @@ export default (app: Application) => {
 
   // error route
   app.use((error: Error, req: Request, res: Response, next: NextFunction): void => {
-    console.log(error);
+    if (process.env.NODE_ENV === 'development') {
+      console.log(error);
+    }
 
     if (error instanceof DataError) {
       res.status(400).json({

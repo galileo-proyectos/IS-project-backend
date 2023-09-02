@@ -1,20 +1,25 @@
 import { Express } from 'express';
 import express from 'express';
-import cors from 'cors';
 import morgan from 'morgan';
+import cors from 'cors';
+import 'dotenv/config';
 import controllers from './controllers';
 
 // setup
 const app: Express = express();
-app.set('PORT', 3555);
+app.set('PORT', process.env.PORT);
 // other configs goes here
 
 // middlewares goes here
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
 app.use(express.json());
 app.use(cors());
 
 // routes goes here
+controllers(app);
 
 // starting server
 app.listen(app.get('PORT'), () => {

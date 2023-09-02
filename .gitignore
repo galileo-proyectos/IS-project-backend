@@ -4,3 +4,9 @@ node_modules
 # yarn
 yarn.lock
 yarn-error.log
+
+# env
+.env
+
+# dist
+dist/

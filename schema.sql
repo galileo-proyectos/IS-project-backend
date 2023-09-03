@@ -6,11 +6,12 @@
  */
 
 CREATE DATABASE PAGOS_EXPRESS;
+USE PAGOS_EXPRESS;
 
 -- ================================= USERS =================================
 CREATE TABLE users (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  stripUserId INT NOT NULL UNIQUE,
+  -- stripUserId INT NOT NULL UNIQUE DEFAULT id,
   email VARCHAR(50) NOT NULL UNIQUE,
   password CHAR(60) NOT NULL,
   bornDate TIMESTAMP,

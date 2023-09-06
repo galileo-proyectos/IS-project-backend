@@ -1,7 +1,8 @@
 import DBConnection from '../DBConnetion';
+import ClientError from '../utils/ClientError';
 
 class AccountsDAO extends DBConnection {
-  async create (data: Create.User): Promise<number> {
+  public async create (data: Create.User): Promise<number> {
     const sql = `INSERT INTO users SET ?`;
     const { insertId } = await this.query(sql, {
       email: data.email,
@@ -19,7 +20,7 @@ class AccountsDAO extends DBConnection {
    * @param email user's email
    * @returns true if the email is already used, false if not.
    */
-  async existsEmail (email: string): Promise<boolean> {
+  public async existsEmail (email: string): Promise<boolean> {
     const sql = `
       SELECT id
       FROM users
@@ -27,6 +28,22 @@ class AccountsDAO extends DBConnection {
       LIMIT 1`;
       const data = await this.query(sql) as DB.RowDataPacket[];
       return data.length !== 0;
+  }
+
+  public async readByEmail (email: string): Promise<Read.UserWithPassword> {
+    const sql = `
+      SELECT
+        id,email,password
+      FROM users
+      WHERE email='${email}'
+      LIMIT 1
+    `;
+    const data = await this.query(sql) as Read.UserWithPassword[]; // warn!: some fields are missing
+    if (data.length > 0) {
+      return data[0];
+    } else {
+      throw new ClientError('email does not exist');
+    }
   }
 }
 

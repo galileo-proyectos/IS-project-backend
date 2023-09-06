@@ -1,6 +1,8 @@
 import dao from './auth.db';
 import vals from './auth.validations';
 import bcrypt from "bcrypt";
+import ClientError from '../utils/ClientError';
+import jwt from 'jsonwebtoken';
 
 class AuthSVC {
   /**
@@ -23,6 +25,32 @@ class AuthSVC {
       return userId;
     }
     return 0;
+  }
+
+  public async signin (login: Auth.LogIn): Promise<string> {
+    // read stored password
+    const userData = await dao.readByEmail(login.email);
+
+    // compare
+    if (await bcrypt.compare(login.password || "", userData.password)) {
+      // jwt
+      return this.generateJWT({
+        id: userData.id,
+        email: userData.email
+      });
+    } else {
+      throw new ClientError('Incorrect password');
+    }
+  }
+
+  private generateJWT (payload: Auth.JWTPayload): Promise<string> {
+    return new Promise((res, rej) => {
+      jwt.sign(payload, process.env.JWT_PRIVATE_KEY!,
+        (err, encoded) => {
+          if (err) rej(err);
+          res(encoded!);
+       });
+    });
   }
 }
 

@@ -1,4 +1,4 @@
-import DataError from "../utils/DataError";
+import DataError from "../utils/ClientError";
 import Patters from "../utils/Patters";
 import dao from "./auth.db";
 

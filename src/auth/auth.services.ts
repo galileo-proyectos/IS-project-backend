@@ -34,10 +34,15 @@ class AuthSVC {
     // compare
     if (await bcrypt.compare(login.password || "", userData.password)) {
       // jwt
-      return this.generateJWT({
+      const jwt = await this.generateJWT({
         id: userData.id,
         email: userData.email
       });
+
+      // store jwt in db
+      await dao.storeJWT(userData.id, jwt);
+
+      return jwt;
     } else {
       throw new ClientError('Incorrect password');
     }

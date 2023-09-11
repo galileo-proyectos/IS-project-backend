@@ -45,6 +45,11 @@ class AccountsDAO extends DBConnection {
       throw new ClientError('email does not exist');
     }
   }
+
+  public async storeJWT (userId: number, jwt: string) : Promise<void> {
+    const sql = `UPDATE users SET ? WHERE id=${userId}`;
+    await this.query(sql, { currentJWT: jwt });
+  }
 }
 
 const dao = new AccountsDAO();

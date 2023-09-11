@@ -5,5 +5,5 @@
     "rb": "ruby",
     "pde": "processing --sketch={{pwd}} --run"
   },
-  "delay": 300
+  "delay": 100
 }

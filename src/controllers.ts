@@ -3,9 +3,20 @@ import DataError from "./utils/ClientError";
 
 import authRoutes from "./auth/auth.routes";
 
+import { authMiddleware } from './middlewares/auth.middlewares';
+
 export default (app: Application) => {
-  // app.use(.....);
+  // signin, signup, password recovery
   app.use('/api/v1/auth/', authRoutes());
+
+  // protecting routes
+  app.use(authMiddleware);
+
+  // routes goes here
+  app.use('/api/v1/', (req, res, next) => {
+    res.sendStatus(200);
+  });
+
 
   // error route
   app.use((error: Error, req: Request, res: Response, next: NextFunction) => {

@@ -46,6 +46,21 @@ class AccountsDAO extends DBConnection {
     }
   }
 
+  public async readJWT (userId: number): Promise<string | null> {
+    const sql = `
+      SELECT currentJWT
+      FROM users
+      WHERE id=${userId}
+      LIMIT 1
+    `;
+    const data = await this.query(sql) as { currentJWT: string | null }[];
+    if (data.length > 0) {
+      return data[0].currentJWT;
+    } else {
+      return null;
+    }
+  }
+
   public async storeJWT (userId: number, jwt: string) : Promise<void> {
     const sql = `UPDATE users SET ? WHERE id=${userId}`;
     await this.query(sql, { currentJWT: jwt });

@@ -4,6 +4,8 @@ import bcrypt from "bcrypt";
 import ClientError from '../utils/ClientError';
 import jwt from 'jsonwebtoken';
 
+import emailServices from '../email/email.services'
+
 
 
 class AuthSVC {
@@ -55,6 +57,11 @@ class AuthSVC {
     }
   }
 
+  /**
+   * This method is used to decoed a JWT a get the JWTPayload
+   * @param token a jwt 
+   * @returns user data
+   */
   public async decodeJWT (token: string): Promise<Auth.JWTPayload | null> {
     return new Promise((res, rej) => {
       jwt.verify(token, process.env.JWT_PRIVATE_KEY!, (err, decoded) => {
@@ -64,6 +71,12 @@ class AuthSVC {
     });
   }
 
+  /**
+   * This method is used to compare a jwt with the jwt stored in db
+   * @param userId user's id
+   * @param token request's jwt
+   * @returns 
+   */
   public async testJWT (userId: number, token: string): Promise<boolean> {
     const storedJWT = await dao.readJWT(userId);
 
@@ -74,6 +87,10 @@ class AuthSVC {
     }
 
     return false;
+  }
+
+  public async sendRecoveryPasswordEmail (email: string) {
+    await emailServices.sendEmail(email, `hello ${email}! this is a test`);
   }
 
   private generateJWT (payload: Auth.JWTPayload): Promise<string> {

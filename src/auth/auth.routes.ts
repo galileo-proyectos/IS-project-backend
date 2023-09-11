@@ -31,5 +31,24 @@ export default (): Router => {
     }
   });
 
+  // password recovery
+  router.post('/password-recovery', async (req, res, next) => {
+    try {
+      const email = req.body.email;
+
+      if (typeof email === 'string') {
+        await svc.sendRecoveryPasswordEmail(email);
+        res.json({ status: 'ok' });
+      } else {
+        res.status(400).json({
+          status: 'bad',
+          message: 'Please provide an email'
+        })
+      }
+    } catch (error) {
+      next(error);
+    }
+  });
+
   return router;
 };

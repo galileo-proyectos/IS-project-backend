@@ -9,14 +9,15 @@ export default (app: Application) => {
   // signin, signup, password recovery
   app.use('/api/v1/auth/', authRoutes());
 
+  // PUBLIC routes goes here
+
   // protecting routes
   app.use(authMiddleware);
 
-  // routes goes here
-  app.use('/api/v1/', (req, res, next) => {
+  // PRIVATE routes goes here
+  app.get('/api/v1/', (req, res, next) => {
     res.sendStatus(200);
   });
-
 
   // error route
   app.use((error: Error, req: Request, res: Response, next: NextFunction) => {

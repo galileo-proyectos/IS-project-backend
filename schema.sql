@@ -25,6 +25,14 @@ CREATE TABLE users (
   CHECK (LENGTH(password) > 0)
 );
 
+CREATE TABLE user_recovery_code (
+  userId INT NOT NULL,
+  recoveryCode VARCHAR(100) NOT NULL,
+
+  PRIMARY KEY(userId, recoveryCode),
+  FOREIGN KEY (userId) REFERENCES users(id)
+);
+
 -- ================================= PRODUCTS =================================
 CREATE TABLE brands (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,

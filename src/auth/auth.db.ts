@@ -30,7 +30,12 @@ class AccountsDAO extends DBConnection {
       return data.length !== 0;
   }
 
-  public async readByEmail (email: string): Promise<Read.UserWithPassword> {
+  /**
+   * This method is used to read hashed passwords from db
+   * @param email user's email
+   * @returns user's data
+   */
+  public async readPassword (email: string): Promise<Read.UserWithPassword> {
     const sql = `
       SELECT
         id,email,password
@@ -44,6 +49,26 @@ class AccountsDAO extends DBConnection {
     } else {
       throw new ClientError('email does not exist');
     }
+  }
+
+  /**
+   * This method is used to read hashed passwords from db
+   * @param email user's email
+   * @returns user's data
+   */
+  public async readByEmail (email: string): Promise<Read.User | null> {
+    const sql = `
+      SELECT
+        id,email,bornDate,phone,imageURL
+      FROM users
+      WHERE email='${email}'
+      LIMIT 1
+    `;
+    const data = await this.query(sql) as Read.UserWithPassword[]; // warn!: some fields are missing
+    if (data.length > 0) {
+      return data[0];
+    }
+    return null;
   }
 
   public async readJWT (userId: number): Promise<string | null> {
@@ -64,6 +89,14 @@ class AccountsDAO extends DBConnection {
   public async storeJWT (userId: number, jwt: string) : Promise<void> {
     const sql = `UPDATE users SET ? WHERE id=${userId}`;
     await this.query(sql, { currentJWT: jwt });
+  }
+
+  public async storeRecoveryCode (userId: number, code: string): Promise<void> {
+    const sql = `
+      INSERT INTO user_recovery_code
+      SET userId=${userId}, recoveryCode='${code}'
+    `;
+    await this.query(sql);
   }
 }
 

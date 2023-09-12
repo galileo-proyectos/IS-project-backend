@@ -3,9 +3,9 @@ import vals from './auth.validations';
 import bcrypt from "bcrypt";
 import ClientError from '../utils/ClientError';
 import jwt from 'jsonwebtoken';
+import uuid from 'short-uuid';
 
 import emailServices from '../email/email.services'
-
 
 
 class AuthSVC {
@@ -38,7 +38,7 @@ class AuthSVC {
    */
   public async signin (login: Auth.LogIn): Promise<string> {
     // read stored password
-    const userData = await dao.readByEmail(login.email);
+    const userData = await dao.readPassword(login.email);
 
     // compare
     if (await bcrypt.compare(login.password || "", userData.password)) {
@@ -90,7 +90,15 @@ class AuthSVC {
   }
 
   public async sendRecoveryPasswordEmail (email: string) {
-    await emailServices.sendEmail(email, `hello ${email}! this is a test`);
+    const user = await dao.readByEmail(email);
+
+    if (user !== null) {
+      const code = uuid.generate();
+      await dao.storeRecoveryCode(user.id, code);
+
+      const message = `Hola usuario, este es su código de verificación:\n\nCódigo de Verificación: ${code}`;
+      await emailServices.sendEmail(user.email, message);
+    }
   }
 
   private generateJWT (payload: Auth.JWTPayload): Promise<string> {

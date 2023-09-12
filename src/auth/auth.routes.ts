@@ -32,11 +32,12 @@ export default (): Router => {
   });
 
   // password recovery
-  router.post('/password-recovery', async (req, res, next) => {
+  router.post('/email-password-recovery', async (req, res, next) => {
     try {
       const email = req.body.email;
 
       if (typeof email === 'string') {
+
         await svc.sendRecoveryPasswordEmail(email);
         res.json({ status: 'ok' });
       } else {

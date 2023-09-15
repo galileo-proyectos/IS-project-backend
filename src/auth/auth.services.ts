@@ -1,9 +1,9 @@
-import dao from './auth.db';
-import vals from './auth.validations';
-import bcrypt from "bcrypt";
 import ClientError from '../utils/ClientError';
+import vals from './auth.validations';
+import { v4 as uuidv4 } from 'uuid';
 import jwt from 'jsonwebtoken';
-import uuid from 'short-uuid';
+import dao from './auth.db';
+import bcrypt from "bcrypt";
 
 import emailServices from '../email/email.services'
 
@@ -93,11 +93,37 @@ class AuthSVC {
     const user = await dao.readByEmail(email);
 
     if (user !== null) {
-      const code = uuid.generate();
+      const code = uuidv4();
       await dao.storeRecoveryCode(user.id, code);
 
-      const message = `Hola usuario, este es su código de verificación:\n\nCódigo de Verificación: ${code}`;
-      await emailServices.sendEmail(user.email, message);
+      const recoveryPageURL = `${process.env.HOST}:${process.env.PORT}/passwor-recovery/${code}`;
+      const htmlBody = `
+          <table cellspacing="0" cellpadding="0" border="0" align="center" width="600" style="border-collapse: collapse;">
+              <tr>
+                  <td align="center" bgcolor="#3498db" style="padding: 40px 0;">
+                      <h1 style="color: #ffffff;">Recuperación de Contraseña</h1>
+                  </td>
+              </tr>
+              <tr>
+                  <td style="padding: 20px 30px;">
+                      <p>¡Hola!</p>
+                      <p>Hemos recibido una solicitud para restablecer la contraseña de tu cuenta. Si no has realizado esta solicitud, puedes ignorar este mensaje.</p>
+                      <p>Para restablecer tu contraseña, haz clic en el siguiente enlace:</p>
+                      <p><a href="${recoveryPageURL}" style="background-color: #3498db; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Cambiar Contraseña</a></p>
+                      <p>Si el enlace de arriba no funciona, copia y pega la siguiente URL en tu navegador:</p>
+                      <p>${recoveryPageURL}</p>
+                      <p>Gracias,</p>
+                      <p>Tu equipo de soporte</p>
+                  </td>
+              </tr>
+              <tr>
+                  <td bgcolor="#f5f5f5" style="text-align: center; padding: 20px 0;">
+                      <p style="color: #333333;">© 2023 Scan&Go. Todos los derechos reservados.</p>
+                  </td>
+              </tr>
+          </table>
+      `;
+      await emailServices.sendHTMLEmail('Recuperación de Contraseña | Scan&Go', user.email, htmlBody);
     }
   }
 

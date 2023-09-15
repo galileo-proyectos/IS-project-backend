@@ -25,7 +25,7 @@ CREATE TABLE users (
   CHECK (LENGTH(password) > 0)
 );
 
-CREATE TABLE user_recovery_code (
+CREATE TABLE user_recovery_codes (
   userId INT NOT NULL,
   recoveryCode VARCHAR(100) NOT NULL,
 

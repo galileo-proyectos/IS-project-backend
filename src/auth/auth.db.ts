@@ -93,7 +93,7 @@ class AccountsDAO extends DBConnection {
 
   public async storeRecoveryCode (userId: number, code: string): Promise<void> {
     const sql = `
-      INSERT INTO user_recovery_code
+      INSERT INTO user_recovery_codes
       SET userId=${userId}, recoveryCode='${code}'
     `;
     await this.query(sql);

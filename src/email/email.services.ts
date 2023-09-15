@@ -11,12 +11,21 @@ const transporter = nodemailer.createTransport({
 });
 
 class MailChimpServices {
-  async sendEmail(email: string, text: string) {
-    const info = await transporter.sendMail({
+  async sendEmail(subject: string, email: string, text: string) {
+    await transporter.sendMail({
       from: 'alessandro.morales@galileo.edu',
       to: email,
-      subject: 'mailchimp test',
+      subject: subject,
       text
+    });
+  }
+
+  async sendHTMLEmail(subject: string, email: string, html: string) {
+    await transporter.sendMail({
+      from: 'alessandro.morales@galileo.edu',
+      to: email,
+      subject,
+      html
     });
   }
 }

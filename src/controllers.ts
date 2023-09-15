@@ -27,10 +27,18 @@ export default (app: Application) => {
 
     if (error instanceof DataError) {
       return res.status(400).json({
-        message: error.message
+        status: 400,
+        message: error.message,
+        results: null,
+        result: null,
       });
     } else if (error instanceof SyntaxError) { 
-      return res.status(400).json({ message: 'Wrong JSON structure' });
+      return res.status(400).json({
+        status: 400,
+        message: 'Wrong JSON structure',
+        results: null,
+        result: null,
+      });
     }
 
     res.status(500).json({

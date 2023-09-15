@@ -12,7 +12,12 @@ export default (): Router => {
       // create user
       await svc.registerUser(body);
 
-      res.sendStatus(201);
+      res.status(200).json({
+        status: 200,
+        message: 'ok',
+        result: null,
+        results: null,
+      });
     } catch (error) {
       next(error);
     }

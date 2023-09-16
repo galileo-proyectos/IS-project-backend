@@ -5,8 +5,8 @@
   Por Alessandro y Gaby
  */
 
-CREATE DATABASE PAGOS_EXPRESS;
-USE PAGOS_EXPRESS;
+CREATE DATABASE PAGOS_EXPRESS
+USE PAGOS_EXPRESS
 
 -- ================================= USERS =================================
 CREATE TABLE users (
@@ -23,7 +23,7 @@ CREATE TABLE users (
 
   CHECK (LENGTH(email) > 5), -- @.com,
   CHECK (LENGTH(password) > 0)
-);
+)
 
 CREATE TABLE user_recovery_codes (
   userId INT NOT NULL,
@@ -31,14 +31,14 @@ CREATE TABLE user_recovery_codes (
 
   PRIMARY KEY(userId, recoveryCode),
   FOREIGN KEY (userId) REFERENCES users(id)
-);
+)
 
 -- ================================= PRODUCTS =================================
 CREATE TABLE brands (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(45) NOT NULL UNIQUE,
   imageURL VARCHAR(100)
-);
+)
 
 CREATE TABLE products (
   code VARCHAR(45) NOT NULL PRIMARY KEY,
@@ -52,14 +52,14 @@ CREATE TABLE products (
 
   CHECK (price > 0),
   CHECK (stock >= 0)
-);
+)
 
 -- ================================= WISHLISTS =================================
 CREATE TABLE wishlist_categories (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(45) NOT NULL UNIQUE,
   imageURL VARCHAR(100)
-);
+)
 
 CREATE TABLE wishlists (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -72,7 +72,7 @@ CREATE TABLE wishlists (
 
   FOREIGN KEY (userId) REFERENCES users(id),
   FOREIGN KEY (categoryId) REFERENCES wishlist_categories(id)
-);
+)
 
 CREATE TABLE wishlist_products (
   wishlistId INT NOT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE wishlist_products (
   FOREIGN KEY (productCode) REFERENCES products(code),
 
   CHECK (amount > 0)
-);
+)
 
 -- ================================= PUCHARSES =================================
 CREATE TABLE pucharses (
@@ -102,7 +102,7 @@ CREATE TABLE pucharses (
   CHECK (LENGTH(number) > 0),
   CHECK (LENGTH(serie) > 0),
   CHECK (total > 0)
-);
+)
 
 CREATE TABLE pucharse_wishlists (
   pucharseId INT NOT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE pucharse_wishlists (
   PRIMARY KEY (pucharseId, wishlistId),
   FOREIGN KEY (pucharseId) REFERENCES pucharses(id),
   FOREIGN KEY (wishlistId) REFERENCES wishlists(id)
-);
+)
 
 CREATE TABLE pucharse_products(
   pucharseId INT NOT NULL,
@@ -125,4 +125,4 @@ CREATE TABLE pucharse_products(
 
   CHECK (price >= 0),
   CHECK (amount > 0)
-);
+)

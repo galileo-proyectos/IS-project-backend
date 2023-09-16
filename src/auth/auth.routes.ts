@@ -1,40 +1,31 @@
-import { Router } from 'express';
-import AuthServices from './auth.services';
+import { Router } from 'express'
+import * as AuthServices from './auth.services'
 
 export default (): Router => {
-  const router = Router();
+  const router = Router()
 
   // register
-  router.post('/signup', async (req, res, next) => {
-    try {
-      const body = req.body as Create.User;
-  
-      // create user
-      await AuthServices.registerUser(body);
+  router.post('/signup', (req, res, next) => {
+    const body = req.body as Create.User
 
+    AuthServices.registerUser(body).then(() => {
       res.status(200).json({
         status: 200,
         message: 'ok',
         result: null,
-        results: null,
-      });
-    } catch (error) {
-      next(error);
-    }
-  });
+        results: null
+      })
+    }).catch(next)
+  })
 
   // log-in
-  router.post('/signin', async (req, res, next) => {
-    try {
-      const body = req.body;
+  router.post('/signin', (req, res, next) => {
+    const body = req.body
 
-      const jwt = await AuthServices.signin(body);
+    AuthServices.signin(body).then((jwt) => {
+      res.json({ status: 'ok', jwt })
+    }).catch(next)
+  })
 
-      res.json({ status: 'ok', jwt });
-    } catch (error) {
-      next(error);
-    }
-  });
-
-  return router;
-};
+  return router
+}

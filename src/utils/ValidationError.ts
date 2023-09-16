@@ -1,4 +1,4 @@
-export default class DataError extends Error {
+export default class ValidationError extends Error {
   field: string
 
   constructor (message: string, field: string) {
@@ -7,6 +7,6 @@ export default class DataError extends Error {
   }
 
   toString (): string {
-    return `[DataError]: Error in field '${this.field}'. ${this.message}`
+    return `[ValidationError]: Error in field '${this.field}'. ${this.message}`
   }
 }

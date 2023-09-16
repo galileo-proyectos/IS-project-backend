@@ -1,15 +1,15 @@
-export {};
+export {}
 
 declare global {
   namespace Auth {
     interface LogIn {
-      email: string;
-      password: string;
+      email: string
+      password: string
     }
 
     interface JWTPayload {
-      id: number;
-      email: string;
+      id: number
+      email: string
     }
   }
 }

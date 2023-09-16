@@ -1,39 +1,35 @@
-import authServices from '../auth/auth.services';
-import { Request, Response, NextFunction } from 'express';
+import * as AuthServices from '../auth/auth.services'
+import type { Request, Response, NextFunction } from 'express'
 
-export async function authMiddleware (req: Request, res: Response, next: NextFunction) {
-    try {
-      const token = req.headers['authorization'];
+export function authMiddleware (req: Request, res: Response, next: NextFunction): void {
+  const token = req.headers.authorization
 
-      if (token !== undefined) {
-        const userData = await authServices.decodeJWT(token);
-
-        // right JWT 
-        if (userData !== null) {
-          // current JWT
-          if (await authServices.testJWT(userData.id, token)) {
-            // the user is authenticated
-            next();
+  if (token !== undefined) {
+    AuthServices.decodeJWT(token).then((userData) => {
+      // right JWT
+      if (userData !== null) {
+        // current JWT
+        AuthServices.testJWT(userData.id, token).then((isValid) => {
+          if (isValid) {
+            next()
           } else {
             res.status(403).json({
               status: 'bad',
               message: 'Your session has end'
-            });
+            })
           }
-        } else {
-          res.status(403).json({
-            status: 'bad',
-            message: 'Your token is invalid'
-          });
-        }
-
+        }).catch(next)
       } else {
         res.status(403).json({
           status: 'bad',
-          message: 'You are not authenticated'
-        });
+          message: 'Your token is invalid'
+        })
       }
-    } catch (error) {
-      next(error);
-    }
+    }).catch(next)
+  } else {
+    res.status(403).json({
+      status: 'bad',
+      message: 'You are not authenticated'
+    })
   }
+}

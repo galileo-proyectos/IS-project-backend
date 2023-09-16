@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+import nodemailer from 'nodemailer'
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.mandrillapp.com',
@@ -8,6 +8,6 @@ const transporter = nodemailer.createTransport({
     user: 'alessandro.morales@galileo.edu',
     pass: process.env.MAILCHIMP_API_KEY
   }
-});
+})
 
-export default transporter;
+export default transporter

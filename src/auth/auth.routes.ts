@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import svc from './auth.services';
+import AuthServices from './auth.services';
 
 export default (): Router => {
   const router = Router();
@@ -10,7 +10,7 @@ export default (): Router => {
       const body = req.body as Create.User;
   
       // create user
-      await svc.registerUser(body);
+      await AuthServices.registerUser(body);
 
       res.status(200).json({
         status: 200,
@@ -28,29 +28,9 @@ export default (): Router => {
     try {
       const body = req.body;
 
-      const jwt = await svc.signin(body);
+      const jwt = await AuthServices.signin(body);
 
       res.json({ status: 'ok', jwt });
-    } catch (error) {
-      next(error);
-    }
-  });
-
-  // password recovery
-  router.post('/email-password-recovery', async (req, res, next) => {
-    try {
-      const email = req.body.email;
-
-      if (typeof email === 'string') {
-
-        await svc.sendRecoveryPasswordEmail(email);
-        res.json({ status: 'ok' });
-      } else {
-        res.status(400).json({
-          status: 'bad',
-          message: 'Please provide an email'
-        })
-      }
     } catch (error) {
       next(error);
     }

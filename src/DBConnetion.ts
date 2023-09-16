@@ -21,7 +21,7 @@ class DB {
       }
     });
   }
-  protected query(sql: string, data:any=null): Promise<DB.QueryResult> {
+  protected static query(sql: string, data:any=null): Promise<DB.QueryResult> {
     return new Promise((res, rej) => {
       if (DB.pool !== null) {
         DB.pool.query(sql, data, (err, result: DB.QueryResult) => {

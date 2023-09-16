@@ -4,17 +4,32 @@ import morgan from 'morgan';
 import cors from 'cors';
 import 'dotenv/config';
 import controllers from './controllers';
+import path from 'path';
+
+import { create } from 'express-handlebars';
+
+const hbs = create({
+  layoutsDir: path.join(__dirname, './views/layouts'),
+  partialsDir: path.join(__dirname, './views/partials'),
+  extname: '.hbs',
+  defaultLayout: 'main'
+});
 
 // setup
 const app: Express = express();
 app.set('PORT', process.env.PORT);
 // other configs goes here
+app.engine('hbs', hbs.engine);
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, './views'));
 
 // middlewares goes here
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+app.use(express.static(path.join(__dirname, './public')));
+app.use(express.urlencoded());
 app.use(express.json());
 app.use(cors());
 

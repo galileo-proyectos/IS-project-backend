@@ -2,8 +2,8 @@ import DataError from "../utils/ClientError";
 import Patters from "../utils/Patters";
 import dao from "./auth.db";
 
-class AuthValidations {
-  async registerValidations (data: Create.User): Promise<boolean> {
+export default class AuthValidations {
+  public static async registerValidations (data: Create.User): Promise<boolean> {
     // valid correct email
     if (!Patters.EMAIL.test(data.email || "")) {
       throw new DataError('Por favor, verifique que su dirección de correo electrónico sea válida."');
@@ -13,9 +13,7 @@ class AuthValidations {
     }
 
     // valid correct password
-    if (!Patters.PASSWORD.test(data.password || "")) {
-      throw new DataError('Su contraseña debe tener un mínimo de 8 caracteres.');
-    }
+    this.validPassword(data.password);
 
     // valid correct born date
     if (typeof data.bornDate === 'number') {
@@ -47,7 +45,11 @@ class AuthValidations {
 
     return true;
   }
-}
 
-const validations = new AuthValidations();
-export default validations;
+  public static validPassword (rawPassword: string): boolean {
+    if (!Patters.PASSWORD.test(rawPassword || "")) {
+      throw new DataError('Su contraseña debe tener al menos 8 caracteres.');
+    }
+    return true;
+  }
+}

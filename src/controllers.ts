@@ -4,18 +4,20 @@ import DataError from "./utils/ClientError";
 import authRoutes from "./auth/auth.routes";
 
 import { authMiddleware } from './middlewares/auth.middlewares';
+import passwordRoutes from "./password_recovery/password.routes";
 
 export default (app: Application) => {
   // signin, signup, password recovery
-  app.use('/api/v1/auth/', authRoutes());
+  app.use('/api/v1/auth', authRoutes());
 
   // PUBLIC routes goes here
+  app.use('/api/v1/password-recovery', passwordRoutes());
 
   // protecting routes
   app.use(authMiddleware);
 
   // PRIVATE routes goes here
-  app.get('/api/v1/', (req, res, next) => {
+  app.get('/api/v1', (req, res, next) => {
     res.sendStatus(200);
   });
 
@@ -41,7 +43,7 @@ export default (app: Application) => {
       });
     }
 
-    res.status(500).json({
+    return res.status(500).json({
       status: 'fail',
       message: error.message
     });

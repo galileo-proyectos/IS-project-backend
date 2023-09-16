@@ -1,0 +1,13 @@
+<div class="logo">
+  <img src="tu-logo.png" alt="Logotipo">
+</div>
+<h2>Cambio de Contraseña</h2>
+<form action="{{recoveryRoute}}/{{recoveryCode}}" method="post">
+  <label for="password">Nueva Contraseña:</label>
+  <input type="password" id="password" name="password" required />
+
+  <label for="confirm_password">Confirmar Contraseña:</label>
+  <input type="password" id="confirmPassword" name="confirmPassword" required />
+
+  <button type="submit">Cambiar Contraseña</button>
+</form>

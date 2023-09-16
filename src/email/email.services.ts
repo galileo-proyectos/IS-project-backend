@@ -10,8 +10,8 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-class MailChimpServices {
-  async sendEmail(subject: string, email: string, text: string) {
+export default class MailChimpServices {
+  public static async sendEmail(subject: string, email: string, text: string) {
     await transporter.sendMail({
       from: 'alessandro.morales@galileo.edu',
       to: email,
@@ -20,7 +20,7 @@ class MailChimpServices {
     });
   }
 
-  async sendHTMLEmail(subject: string, email: string, html: string) {
+  public static async sendHTMLEmail(subject: string, email: string, html: string) {
     await transporter.sendMail({
       from: 'alessandro.morales@galileo.edu',
       to: email,
@@ -29,6 +29,3 @@ class MailChimpServices {
     });
   }
 }
-
-const svc = new MailChimpServices();
-export default svc;

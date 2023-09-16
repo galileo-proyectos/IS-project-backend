@@ -1,5 +1,6 @@
 import * as AuthServices from '../auth/auth.services'
 import type { Request, Response, NextFunction } from 'express'
+import ForbiddenError from '../utils/ForbiddenError'
 
 export function authMiddleware (req: Request, res: Response, next: NextFunction): void {
   const token = req.headers.authorization
@@ -13,17 +14,11 @@ export function authMiddleware (req: Request, res: Response, next: NextFunction)
           if (isValid) {
             next()
           } else {
-            res.status(403).json({
-              status: 'bad',
-              message: 'Your session has end'
-            })
+            throw new ForbiddenError('Tu sesión ha terminado')
           }
         }).catch(next)
       } else {
-        res.status(403).json({
-          status: 'bad',
-          message: 'Your token is invalid'
-        })
+        throw new ForbiddenError('Tu token es inválido')
       }
     }).catch(next)
   } else {

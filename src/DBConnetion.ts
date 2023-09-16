@@ -24,14 +24,7 @@ const pool: Pool = mysql.createPool({
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  typeCast: function (field, next) {
-    if (field.type === 'NEWDECIMAL' || field.type === 'DECIMAL') {
-      const value = field.string()
-      return value === null ? null : Number(value)
-    }
-    next()
-    return null;
-  }
+  decimalNumbers: true,
 })
 
 export async function query (sql: string, data: any = null): Promise<DB.QueryResult> {

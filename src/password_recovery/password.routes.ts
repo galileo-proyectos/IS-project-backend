@@ -2,6 +2,7 @@ import { Router } from 'express'
 import * as PasswordServices from './password.services'
 import * as PasswordConst from './password.const'
 import DataError from '../utils/ClientError'
+import ForbiddenError from '../utils/ForbiddenError'
 
 export default (): Router => {
   const router = Router()
@@ -16,11 +17,24 @@ export default (): Router => {
           styles: 'password_recovery/form'
         })
       } else {
-        res.sendStatus(403)
+        throw new ForbiddenError()
       }
     }).catch(() => {
-      res.sendStatus(403)
+      next(new ForbiddenError())
     })
+  })
+
+  // password recovery
+  router.post('/send-email', (req, res, next) => {
+    const email = req.body.email
+
+    if (typeof email === 'string' && email.trim().length !== 0) {
+      PasswordServices.sendRecoveryPasswordEmail(email).then(() => {
+        res.json({ status: 'ok' })
+      }).catch(next)
+    } else {
+      next(new DataError('Debes escribir una dirección de correo para continuar', 'email'))
+    }
   })
 
   router.post('/:code', (req, res, next) => {
@@ -56,22 +70,6 @@ export default (): Router => {
     }).catch((reason) => {
       next(reason)
     })
-  })
-
-  // password recovery
-  router.post('/send-email', (req, res, next) => {
-    const email = req.body.email
-
-    if (typeof email === 'string' && email.trim().length !== 0) {
-      PasswordServices.sendRecoveryPasswordEmail(email).then(() => {
-        res.json({ status: 'ok' })
-      }).catch(next)
-    } else {
-      res.status(400).json({
-        status: 'bad',
-        message: 'Please provide an email'
-      })
-    }
   })
 
   return router

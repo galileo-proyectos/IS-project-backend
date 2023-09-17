@@ -29,7 +29,7 @@ const pool: Pool = mysql.createPool({
 
 export async function query (sql: string, data: any = null): Promise<DB.QueryResult> {
   return await new Promise<DB.QueryResult>((resolve, reject) => {
-    if (data === null) {
+    if (data !== null) {
       pool.query(sql, data, (err, result: DB.QueryResult) => {
         if (err === null) {
           resolve(result)

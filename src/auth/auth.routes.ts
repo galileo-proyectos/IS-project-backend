@@ -9,12 +9,7 @@ export default (): Router => {
     const body = req.body as Create.User
 
     AuthServices.registerUser(body).then(() => {
-      res.status(200).json({
-        status: 200,
-        message: 'ok',
-        result: null,
-        results: null
-      })
+      res.okResponse()
     }).catch(next)
   })
 
@@ -23,7 +18,7 @@ export default (): Router => {
     const body = req.body
 
     AuthServices.signin(body).then((jwt) => {
-      res.json({ status: 'ok', jwt })
+      res.successResponse({ results: jwt, message: null })
     }).catch(next)
   })
 

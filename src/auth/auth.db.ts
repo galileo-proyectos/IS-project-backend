@@ -1,10 +1,10 @@
 import { query } from '../DBConnetion'
-import ClientError from '../utils/ClientError'
 
 export async function create (data: Create.User): Promise<number> {
   const sql = 'INSERT INTO users SET ?'
   const { insertId } = await query(sql, {
     email: data.email,
+    password: data.password,
     bornDate: data.bornDate !== null ? new Date(data.bornDate) : null,
     phone: data.phone,
     acceptPromotions: data.acceptPromotions,
@@ -43,7 +43,7 @@ export async function existsEmail (email: string): Promise<boolean> {
    * @param email user's email
    * @returns user's data
    */
-export async function readPassword (email: string): Promise<Read.UserWithPassword> {
+export async function readPassword (email: string): Promise<Read.UserWithPassword | null> {
   const sql = `
     SELECT
       id,email,password
@@ -55,7 +55,7 @@ export async function readPassword (email: string): Promise<Read.UserWithPasswor
   if (data.length > 0) {
     return data[0]
   } else {
-    throw new ClientError('email does not exist', 'email')
+    return null
   }
 }
 

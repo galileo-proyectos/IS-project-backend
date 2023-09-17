@@ -6,6 +6,8 @@ import 'dotenv/config'
 import controllers from './controllers'
 import path from 'path'
 
+import { injectResponseTypes } from './middlewares/response.middleware';
+
 import { create } from 'express-handlebars'
 
 const hbs = create({
@@ -27,6 +29,7 @@ app.set('views', path.join(__dirname, './views'))
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
+app.use(injectResponseTypes)
 app.use(express.static(path.join(__dirname, './public')))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())

@@ -29,31 +29,13 @@ export default (app: Application): void => {
     }
 
     if (error instanceof DataError) {
-      return res.status(400).json({
-        status: 400,
-        message: error.message,
-        results: null,
-        result: null
-      })
+      return res.clientErrorResponse(error.message)
     } else if (error instanceof ForbiddenError) {
-      return res.status(200).json({
-        status: 403,
-        message: error.message,
-        results: null,
-        result: null
-      })
+      return res.forbiddenResponse(error.message)
     } else if (error instanceof SyntaxError) {
-      return res.status(400).json({
-        status: 400,
-        message: 'Wrong JSON structure',
-        results: null,
-        result: null
-      })
+      return res.clientErrorResponse('Wrong JSON structure');
     }
 
-    return res.status(500).json({
-      status: 'fail',
-      message: error.message
-    })
+    return res.fatalErrorResponse()
   })
 }

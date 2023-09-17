@@ -14,10 +14,8 @@ export async function registerUser (data: Create.User): Promise<number> {
   // validate data
   if (await AuthValidations.registerValidations(data)) {
     // store in db
+    data.password = await hashPassword(data.password);
     const userId = await AuthDAO.create(data)
-
-    // save password
-    await changePassword(userId, data.password)
 
     // store in stripe
 
@@ -31,9 +29,12 @@ export async function registerUser (data: Create.User): Promise<number> {
 export async function changePassword (userId: number, rawPassword: string): Promise<void> {
   if (AuthValidations.validPassword(rawPassword)) {
     // hash password
-    const password = await bcrypt.hash(rawPassword, parseInt(process.env.SALT_ROUNDS))
+    const password = await hashPassword(rawPassword)
     await AuthDAO.changePassword(userId, password)
   }
+}
+async function hashPassword (rawPassword: string): Promise<string> {
+  return await bcrypt.hash(rawPassword, parseInt(process.env.SALT_ROUNDS))
 }
 
 /**
@@ -45,20 +46,24 @@ export async function signin (login: Auth.LogIn): Promise<string> {
   // read stored password
   const userData = await AuthDAO.readPassword(login.email)
 
-  // compare
-  if (await bcrypt.compare(login.password ?? '', userData.password)) {
-    // jwt
-    const jwt = await generateJWT({
-      id: userData.id,
-      email: userData.email
-    })
+  if (userData !== null) {
+    // compare
+    if (await bcrypt.compare(login.password ?? '', userData.password)) {
+      // jwt
+      const jwt = await generateJWT({
+        id: userData.id,
+        email: userData.email
+      })
 
-    // store jwt in db
-    await AuthDAO.storeJWT(userData.id, jwt)
+      // store jwt in db
+      await AuthDAO.storeJWT(userData.id, jwt)
 
-    return jwt
+      return jwt
+    } else {
+      throw new ClientError('Su Email o contraseña son incorrectos', 'email&password')
+    }
   } else {
-    throw new ClientError('Incorrect password', 'password')
+    throw new ClientError('Su Email o contraseña son incorrectos', 'email&password')
   }
 }
 async function generateJWT (payload: Auth.JWTPayload): Promise<string> {

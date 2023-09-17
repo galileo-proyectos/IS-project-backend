@@ -11,6 +11,7 @@
     "tsc-init": "tsc --init",
     "dev": "nodemon dist/app.js",
     "build:watch": "tsc --build tsconfig.json --watch",
+    "build": "tsc --build tsconfig.json",
     "lint": "eslint src/**/*.ts"
   },
   "dependencies": {

@@ -30,7 +30,7 @@ export default (): Router => {
 
     if (typeof email === 'string' && email.trim().length !== 0) {
       PasswordServices.sendRecoveryPasswordEmail(email).then(() => {
-        res.json({ status: 'ok' })
+        res.okResponse()
       }).catch(next)
     } else {
       next(new DataError('Debes escribir una dirección de correo para continuar', 'email'))

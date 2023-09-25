@@ -8,7 +8,7 @@ export function injectResponseTypes (req: Request, res: Response, next: NextFunc
       results: null
     })
   }
-  
+
   res.successResponse = function (response: Express.ResponseBody) {
     res.status(200).json({
       status: 200,

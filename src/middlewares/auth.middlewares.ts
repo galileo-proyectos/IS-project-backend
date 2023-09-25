@@ -10,7 +10,7 @@ export function authMiddleware (req: Request, res: Response, next: NextFunction)
       // right JWT
       if (userData !== null) {
         // current JWT
-        AuthServices.testJWT(userData.id, token).then((isValid) => {
+        AuthServices.isCurrentJWT(userData.id, token).then((isValid) => {
           if (isValid) {
             next()
           } else {

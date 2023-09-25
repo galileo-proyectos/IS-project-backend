@@ -14,7 +14,7 @@ export async function registerUser (data: Create.User): Promise<number> {
   // validate data
   if (await AuthValidations.registerValidations(data)) {
     // store in db
-    data.password = await hashPassword(data.password);
+    data.password = await hashString(data.password)
     const userId = await AuthDAO.create(data)
 
     // store in stripe
@@ -29,12 +29,9 @@ export async function registerUser (data: Create.User): Promise<number> {
 export async function changePassword (userId: number, rawPassword: string): Promise<void> {
   if (AuthValidations.validPassword(rawPassword)) {
     // hash password
-    const password = await hashPassword(rawPassword)
+    const password = await hashString(rawPassword)
     await AuthDAO.changePassword(userId, password)
   }
-}
-async function hashPassword (rawPassword: string): Promise<string> {
-  return await bcrypt.hash(rawPassword, parseInt(process.env.SALT_ROUNDS))
 }
 
 /**
@@ -56,7 +53,7 @@ export async function signin (login: Auth.LogIn): Promise<string> {
       })
 
       // store jwt in db
-      await AuthDAO.storeJWT(userData.id, jwt)
+      await AuthDAO.storeJWT(userData.id, await hashString(jwt))
 
       return jwt
     } else {
@@ -106,14 +103,18 @@ export async function decodeJWT (token: string): Promise<Auth.JWTPayload | null>
  * @param token request's jwt
  * @returns
  */
-export async function testJWT (userId: number, token: string): Promise<boolean> {
+export async function isCurrentJWT (userId: number, token: string): Promise<boolean> {
   const storedJWT = await AuthDAO.readJWT(userId)
 
   // the user has signed in
   if (storedJWT !== null) {
     // compare tokens
-    return storedJWT === token
+    return bcrypt.compare(token, storedJWT)
   }
 
   return false
+}
+
+async function hashString (raw: string): Promise<string> {
+  return await bcrypt.hash(raw, parseInt(process.env.SALT_ROUNDS))
 }

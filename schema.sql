@@ -40,11 +40,54 @@ CREATE TABLE brands (
   imageURL VARCHAR(100)
 );
 
+-- Inserting test data into the brands table
+INSERT INTO brands (name, imageURL)
+VALUES
+    ('Brand A', NULL),
+    ('Brand B', NULL),
+    ('Brand C', NULL),
+    ('Brand D', NULL),
+    ('Brand E', NULL),
+    ('Brand F', NULL),
+    ('Brand G', NULL),
+    ('Brand H', NULL),
+    ('Brand I', NULL),
+    ('Brand J', NULL);
+
+
 CREATE TABLE aisles (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(20) UNIQUE,
   imageURL VARCHAR(100)
 );
+
+-- Inserting test data into the aisles table
+INSERT INTO aisles (name, imageURL)
+VALUES
+    ('Fruits', NULL),
+    ('Vegetables', NULL),
+    ('Dairy', NULL),
+    ('Meat', NULL),
+    ('Bakery', NULL),
+    ('Canned Goods', NULL),
+    ('Frozen Foods', NULL),
+    ('Snacks', NULL),
+    ('Beverages', NULL),
+    ('Personal Care', NULL);
+
+INSERT INTO products (code, name, price, stock, brandId, aisleId)
+VALUES
+  ('1234567890', 'Apple', 0.3, 100, 1, 1),
+  ('2345678901', 'Tomato', 0.2, 100, 2, 2),
+  ('3456789012', 'Milk', 2, 100, 3, 3),
+  ('4567890123', 'Tenderloin lb', 10, 100, 4, 4),
+  ('5678901234', 'Cookies mix', 3, 100, 5, 5),
+  ('6789012345', 'Dog food', 3, 100, 6, 6),
+  ('7890123456', 'Frozen french fries', 5, 100, 7, 7),
+  ('8901234567', 'Lays', 1, 100, 8, 8),
+  ('9012345678', 'Pepsi', 1.5, 100, 9, 9),
+  ('0123456789', 'Soap', 7, 100, 10, 10);
+
 
 CREATE TABLE products (
   code VARCHAR(45) NOT NULL PRIMARY KEY,

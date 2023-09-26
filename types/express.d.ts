@@ -3,7 +3,7 @@ export {}
 declare global {
   namespace Express {
     interface ResponseBody {
-      message: string | null
+      message: string | null | undefined
       results: any | null
     }
 

@@ -12,5 +12,27 @@ declare global {
     interface UserWithPassword extends User{
       password: string
     }
+
+    interface Brand {
+      id: number;
+      name: string;
+      imageURL: string?;
+    }
+    interface Aisle {
+      id: number;
+      name: string;
+      imageURL: string?;
+    }
+    interface Product {
+      code: string;
+      name: string;
+      price: number;
+      stock: number;
+      imageURL: string?;
+      brandId: number;
+      brand: Brand?;
+      aisleId: number;
+      aisle: Aisle?;
+    }
   }
 }

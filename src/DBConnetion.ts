@@ -1,3 +1,5 @@
+import fs from 'fs'
+import path from 'path'
 import mysql from 'mysql2'
 import type { Pool } from 'mysql2'
 
@@ -18,14 +20,23 @@ if (process.env.DB_NAME === undefined) {
   throw new Error('No name for database provided')
 }
 
-const pool: Pool = mysql.createPool({
+const connectionOptions: mysql.PoolOptions = {
   connectionLimit: 10,
   host: process.env.DB_HOST,
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
   decimalNumbers: true,
-})
+}
+
+if (process.env.NODE_ENV === 'production') {
+  connectionOptions.ssl = {
+    ca: fs.readFileSync(path.join(__dirname, './ca-certificate.crt'))
+  }
+}
+
+const pool: Pool = mysql.createPool(connectionOptions)
 
 export async function query (sql: string, data: any = null): Promise<DB.QueryResult> {
   return await new Promise<DB.QueryResult>((resolve, reject) => {

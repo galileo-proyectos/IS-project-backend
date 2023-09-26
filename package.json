@@ -12,7 +12,8 @@
     "dev": "nodemon dist/app.js",
     "build:watch": "tsc --build tsconfig.json --watch",
     "build": "tsc --build tsconfig.json",
-    "lint": "eslint src/**/*.ts"
+    "lint": "eslint src/**/*.ts",
+    "start": "node dist/app.js"
   },
   "dependencies": {
     "@types/nodemailer": "^6.4.10",

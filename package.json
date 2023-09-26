@@ -13,7 +13,8 @@
     "build:watch": "tsc --build tsconfig.json --watch",
     "build": "tsc --build tsconfig.json",
     "lint": "eslint src/**/*.ts",
-    "start": "node dist/app.js"
+    "start": "node dist/app.js",
+    "build:digitalocean": "yarn install --production=false && yarn run build && rm -rf node_modules && yarn install --production --frozen-lockfile"
   },
   "dependencies": {
     "@types/nodemailer": "^6.4.10",

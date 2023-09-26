@@ -1,3 +1,5 @@
+import fs from 'fs'
+import path from 'path'
 import mysql from 'mysql2'
 import type { Pool } from 'mysql2'
 
@@ -25,6 +27,9 @@ const pool: Pool = mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   decimalNumbers: true,
+  ssl: {
+    ca: fs.readFileSync(path.join(__dirname, 'ca-certificate.crt'))
+  }
 })
 
 export async function query (sql: string, data: any = null): Promise<DB.QueryResult> {

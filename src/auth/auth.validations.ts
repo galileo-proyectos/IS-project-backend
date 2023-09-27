@@ -5,10 +5,10 @@ import * as AuthDAO from './auth.db'
 export async function registerValidations (data: Create.User): Promise<boolean> {
   // valid correct email
   if (!Patters.EMAIL.test(data.email ?? '')) {
-    throw new DataError('Por favor, verifique que su dirección de correo electrónico sea válida.', 'email')
+    throw new DataError('Por favor, verifique que su dirección de correo electrónico sea válida.')
   }
   if (await AuthDAO.existsEmail(data.email ?? '')) {
-    throw new DataError('Esta dirección de correo electrónico ya está en uso.', 'email')
+    throw new DataError('Esta dirección de correo electrónico ya está en uso.')
   }
 
   // valid correct password
@@ -17,7 +17,7 @@ export async function registerValidations (data: Create.User): Promise<boolean> 
   // valid correct born date
   if (typeof data.bornDate === 'number') {
     if (!(data.bornDate > -63115200000 && data.bornDate < Date.now())) {
-      throw new DataError('Asegúrese de proporcionar una fecha de nacimiento válida y precisa.', 'bornDate')
+      throw new DataError('Asegúrese de proporcionar una fecha de nacimiento válida y precisa.')
     }
   } else {
     data.bornDate = null
@@ -30,16 +30,16 @@ export async function registerValidations (data: Create.User): Promise<boolean> 
 
   // valid correct acceptPromotions
   if (typeof data.acceptPromotions !== 'boolean') {
-    throw new DataError('Invalid acceptPromotions data type.', 'acceptPromotions')
+    throw new DataError('Invalid acceptPromotions data type.')
   }
 
   // valid correct acceptTerms
   if (typeof data.acceptTerms === 'boolean') {
     if (!data.acceptTerms) {
-      throw new DataError('Para continuar, es necesario que acepte los términos y condiciones.', 'acceptTerms')
+      throw new DataError('Para continuar, es necesario que acepte los términos y condiciones.')
     }
   } else {
-    throw new DataError('Invalid acceptTerms data type.', 'acceptTerms')
+    throw new DataError('Invalid acceptTerms data type.')
   }
 
   return true
@@ -47,7 +47,7 @@ export async function registerValidations (data: Create.User): Promise<boolean> 
 
 export function validPassword (rawPassword: string): boolean {
   if (!Patters.PASSWORD.test(rawPassword ?? '')) {
-    throw new DataError('Su contraseña debe tener al menos 8 caracteres.', 'rawPassword')
+    throw new DataError('Su contraseña debe tener al menos 8 caracteres.')
   }
   return true
 }

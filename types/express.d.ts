@@ -12,6 +12,7 @@ declare global {
       fatalErrorResponse: () => void,
       forbiddenResponse: (message: string) => void,
       clientErrorResponse: (message: string) => void,
+      notFoundErrorRespose: (message: string) => void,
       okResponse: () => void
     }
   }

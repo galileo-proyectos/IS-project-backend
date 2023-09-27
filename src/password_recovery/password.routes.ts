@@ -33,7 +33,7 @@ export default (): Router => {
         res.okResponse()
       }).catch(next)
     } else {
-      next(new DataError('Debes escribir una dirección de correo para continuar', 'email'))
+      next(new DataError('Debes escribir una dirección de correo para continuar'))
     }
   })
 
@@ -61,11 +61,11 @@ export default (): Router => {
           })
         } else {
           // send to somewhere
-          next(new DataError('Las contraseñas no coinciden.', 'confirmPassword'))
+          next(new DataError('Las contraseñas no coinciden.'))
         }
       } else {
         // send to somewhere
-        next(new DataError('No tienes permitido cambiar al contraseña.', 'recoveryCode'))
+        next(new DataError('No tienes permitido cambiar al contraseña.'))
       }
     }).catch((reason) => {
       next(reason)

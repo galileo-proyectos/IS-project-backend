@@ -40,5 +40,13 @@ export function injectResponseTypes (req: Request, res: Response, next: NextFunc
     })
   }
 
+  res.notFoundErrorRespose = function (message: string) {
+    res.status(200).json({
+      status: 404,
+      message,
+      results: null
+    })
+  }
+
   next()
 }

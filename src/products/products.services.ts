@@ -1,5 +1,6 @@
-import { Product } from '../utils/Models'
+import NotFoundError from '../utils/NotFoundError'
 import type { Model, WhereOptions } from 'sequelize'
+import { Product } from '../utils/Models'
 import { Op } from 'sequelize'
 
 interface ReadFilters {
@@ -29,4 +30,14 @@ export async function readAll (filters: ReadFilters): Promise<Array<Model<Read.P
   return await Product.findAll({
     where: sqWhere
   })
+}
+
+export async function readOne (code: string): Promise<Model<Read.Product, Read.Product>> {
+  const product = await Product.findOne({ where: { code } })
+
+  if (product !== null) {
+    return product
+  } else {
+    throw new NotFoundError('Product not found.')
+  }
 }

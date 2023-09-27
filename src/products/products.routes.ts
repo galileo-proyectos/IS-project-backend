@@ -34,5 +34,14 @@ export default (): Router => {
     }).catch(next)
   })
 
+  router.get('/:code/code', (req, res, next) => {
+    ProductServices.readOne(req.params.code).then((results) => {
+      res.successResponse({
+        message: 'ok',
+        results
+      })
+    }).catch(next)
+  })
+
   return router
 }

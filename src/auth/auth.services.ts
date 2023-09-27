@@ -109,7 +109,7 @@ export async function isCurrentJWT (userId: number, token: string): Promise<bool
   // the user has signed in
   if (storedJWT !== null) {
     // compare tokens
-    return bcrypt.compare(token, storedJWT)
+    return await bcrypt.compare(token, storedJWT)
   }
 
   return false

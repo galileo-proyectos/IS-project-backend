@@ -21,7 +21,7 @@ if (process.env.DB_NAME === undefined) {
 }
 
 const connectionOptions: mysql.PoolOptions = {
-  connectionLimit: 10,
+  connectionLimit: 5,
   host: process.env.DB_HOST,
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,

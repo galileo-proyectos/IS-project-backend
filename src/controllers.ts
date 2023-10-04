@@ -1,13 +1,15 @@
 import type { Application, Request, Response, NextFunction } from 'express'
 import DataError from './utils/ClientError'
 
-import { authMiddleware } from './middlewares/auth.middlewares'
-import passwordRoutes from './password_recovery/password.routes'
 import ForbiddenError from './utils/ForbiddenError'
+import NotFoundError from './utils/NotFoundError'
+
+import { authMiddleware } from './middlewares/auth.middlewares'
 
 import authRoutes from './auth/auth.routes'
+import aislesRoutes from './aisles/aisles.routes'
 import productsRoutes from './products/products.routes'
-import NotFoundError from './utils/NotFoundError'
+import passwordRoutes from './password_recovery/password.routes'
 
 export default (app: Application): void => {
   // signin, signup, password recovery
@@ -21,6 +23,7 @@ export default (app: Application): void => {
 
   // PRIVATE routes goes here
   app.use('/api/v1/products', productsRoutes())
+  app.use('/api/v1/aisles', aislesRoutes())
 
   // error route
   app.use((error: Error, req: Request, res: Response, next: NextFunction) => {

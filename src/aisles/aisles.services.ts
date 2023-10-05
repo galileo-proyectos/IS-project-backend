@@ -1,6 +1,6 @@
 import NotFoundError from '../utils/NotFoundError'
 import type { Model } from 'sequelize'
-import { Aisle } from '../utils/Models'
+import { Aisle } from '../models/Models'
 
 export async function readAll (): Promise<Model[]> {
   return await Aisle.findAll()

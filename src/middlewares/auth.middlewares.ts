@@ -23,9 +23,6 @@ export function authMiddleware (req: Request, res: Response, next: NextFunction)
       }
     }).catch(next)
   } else {
-    res.status(403).json({
-      status: 'bad',
-      message: 'You are not authenticated'
-    })
+    throw new ForbiddenError('You are not authenticated')
   }
 }

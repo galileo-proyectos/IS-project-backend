@@ -75,6 +75,23 @@ VALUES
     ('Beverages', NULL),
     ('Personal Care', NULL);
 
+CREATE TABLE products (
+  code VARCHAR(45) NOT NULL PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  description VARCHAR(75),
+  price DECIMAL(8, 2) NOT NULL,
+  stock DECIMAL(8, 3) NOT NULL DEFAULT 0,
+  imageURL VARCHAR(100),
+  brandId INT NOT NULL,
+  aisleId INT NOT NULL,
+
+  FOREIGN KEY(brandId) REFERENCES brands(id),
+  FOREIGN KEY(aisleId) REFERENCES aisles(id),
+
+  CHECK (price > 0),
+  CHECK (stock >= 0)
+);
+
 INSERT INTO products (code, name, price, stock, brandId, aisleId)
 VALUES
   ('1234567890', 'Apple', 0.3, 100, 1, 1),
@@ -88,22 +105,6 @@ VALUES
   ('9012345678', 'Pepsi', 1.5, 100, 9, 9),
   ('0123456789', 'Soap', 7, 100, 10, 10);
 
-
-CREATE TABLE products (
-  code VARCHAR(45) NOT NULL PRIMARY KEY,
-  name VARCHAR(50) NOT NULL,
-  price DECIMAL(8, 2) NOT NULL,
-  stock DECIMAL(8, 3) NOT NULL DEFAULT 0,
-  imageURL VARCHAR(100),
-  brandId INT NOT NULL,
-  aisleId INT NOT NULL,
-
-  FOREIGN KEY(brandId) REFERENCES brands(id),
-  FOREIGN KEY(aisleId) REFERENCES aisles(id),
-
-  CHECK (price > 0),
-  CHECK (stock >= 0)
-);
 -- ================================= WISHLISTS =================================
 CREATE TABLE wishlist_categories (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,

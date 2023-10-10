@@ -4,6 +4,7 @@ import { DataTypes } from 'sequelize'
 export const Product = db.define('products', {
   code: { type: DataTypes.STRING, allowNull: false, primaryKey: true },
   name: { type: DataTypes.STRING, allowNull: false },
+  description: { type: DataTypes.STRING },
   price: { type: DataTypes.DECIMAL, allowNull: false },
   stock: { type: DataTypes.DECIMAL, allowNull: false },
   imageURL: { type: DataTypes.STRING },

@@ -27,7 +27,7 @@ const connectionOptions: mysql.PoolOptions = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   port: process.env.DB_PORT,
-  decimalNumbers: true,
+  decimalNumbers: true
 }
 
 if (process.env.NODE_ENV === 'production') {

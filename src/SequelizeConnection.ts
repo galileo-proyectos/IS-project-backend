@@ -10,17 +10,15 @@ const options: Options = {
   port: process.env.DB_PORT,
   ssl: process.env.NODE_ENV === 'production',
   dialect: 'mysql',
+  dialectOptions: {
+    decimalNumbers: true,
+    ssl: process.env.NODE_ENV === 'production' ? {
+      ca: fs.readFileSync(path.join(__dirname, './ca-certificate.crt'))
+    } : undefined
+  },
   pool: {
     max: parseInt(process.env.DB_CONNECTION_LIMIT),
-    min: 1,
-  }
-}
-
-if (process.env.NODE_ENV === 'production') {
-  options.dialectOptions = {
-    ssl: {
-      ca: fs.readFileSync(path.join(__dirname, './ca-certificate.crt'))
-    }
+    min: 1
   }
 }
 

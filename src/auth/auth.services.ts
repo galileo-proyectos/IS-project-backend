@@ -57,10 +57,10 @@ export async function signin (login: Auth.LogIn): Promise<string> {
 
       return jwt
     } else {
-      throw new ClientError('Su Email o contraseña son incorrectos')
+      throw new ClientError('Su email o contraseña son incorrectos')
     }
   } else {
-    throw new ClientError('Su Email o contraseña son incorrectos')
+    throw new ClientError('Su email o contraseña son incorrectos')
   }
 }
 async function generateJWT (payload: Auth.JWTPayload): Promise<string> {

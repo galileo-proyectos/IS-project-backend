@@ -51,3 +51,11 @@ export function validPassword (rawPassword: string): boolean {
   }
   return true
 }
+
+export function isValidEmail (email: string): boolean {
+  if (!Patters.EMAIL.test(email ?? '')) {
+    throw new DataError('Por favor, verifique que su email sea válido.')
+  }
+
+  return true;
+}

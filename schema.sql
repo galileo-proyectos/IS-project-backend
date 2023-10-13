@@ -155,3 +155,58 @@ CREATE TABLE pucharse_products(
   CHECK (price >= 0),
   CHECK (amount > 0)
 );
+
+-- ================================= PROMOTIONS =================================
+CREATE TABLE promotions (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(25) NOT NULL,
+  description VARCHAR(100) NOT NULL,
+  couponCode CHAR(6) NOT NULL UNIQUE,
+  startDate TIMESTAMP NOT NULL,
+  endDate TIMESTAMP NOT NULL,
+  imageURL VARCHAR(100) NOT NULL,
+  isActivated TINYINT(1) DEFAULT 1,
+
+  CHECK (LENGTH(name) <> 0),
+  CHECK (LENGTH(couponCode) <> 0),
+  CHECK (LENGTH(description) <> 0),
+  CHECK (endDate > startDate),
+  CHECK (isActivated IN (1, 0))
+);
+
+CREATE TABLE promotion_details (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  productCode VARCHAR(45) NOT NULL,
+  discountValue DECIMAL(3, 2) NOT NULL, -- percentage
+
+  FOREIGN KEY (productCode) REFERENCES products(code),
+
+  CHECK (discountValue > 0 AND discountValue <= 1)
+);
+
+INSERT INTO promotions (name, description, couponCode, startDate, endDate, imageURL)
+VALUES
+  (
+    'Herméticos acero',
+    'Ahora puedes conseguir herméticos de acero inoxidable en nuestras sucursales.',
+    'CMF456',
+    '2023-10-05',
+    '2023-10-20',
+    'https://scangoassets.blob.core.windows.net/promotionsimages/promo10.png'
+  ),
+  (
+    '2x1 Octubre',
+    '¿Qué estás esperando para conseguir tu yougurt Griego?',
+    'OCT2X1',
+    '2023-10-05',
+    '2023-10-18',
+    'https://scangoassets.blob.core.windows.net/promotionsimages/promo8.png'
+  ),
+  (
+    'Premios productos bebés',
+    'Participa con tus compras de Q40 en productos de bebés',
+    'MBBFUI',
+    '2023-10-05',
+    '2023-10-25',
+    'https://scangoassets.blob.core.windows.net/promotionsimages/promo9.png'
+  );

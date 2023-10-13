@@ -10,6 +10,7 @@ import authRoutes from './auth/auth.routes'
 import aislesRoutes from './aisles/aisles.routes'
 import productsRoutes from './products/products.routes'
 import passwordRoutes from './password_recovery/password.routes'
+import promotionsRoutes from './promotions/promotions.routes'
 
 export default (app: Application): void => {
   // signin, signup, password recovery
@@ -24,6 +25,7 @@ export default (app: Application): void => {
   // PRIVATE routes goes here
   app.use('/api/v1/products', productsRoutes())
   app.use('/api/v1/aisles', aislesRoutes())
+  app.use('/api/v1/promotions', promotionsRoutes())
 
   // error route
   app.use((error: Error, req: Request, res: Response, next: NextFunction) => {

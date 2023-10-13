@@ -37,23 +37,8 @@ CREATE TABLE user_recovery_codes (
 CREATE TABLE brands (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(45) NOT NULL UNIQUE,
-  imageURL VARCHAR(100)
+  imageURL VARCHAR(100) NOT NULL
 );
-
--- Inserting test data into the brands table
-INSERT INTO brands (name, imageURL)
-VALUES
-    ('Brand A', NULL),
-    ('Brand B', NULL),
-    ('Brand C', NULL),
-    ('Brand D', NULL),
-    ('Brand E', NULL),
-    ('Brand F', NULL),
-    ('Brand G', NULL),
-    ('Brand H', NULL),
-    ('Brand I', NULL),
-    ('Brand J', NULL);
-
 
 CREATE TABLE aisles (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -61,22 +46,13 @@ CREATE TABLE aisles (
   imageURL VARCHAR(100) NOT NULL
 );
 
--- Inserting test data into the aisles table
-INSERT INTO aisles (name, imageURL)
-VALUES
-    ('Abarrotes', 'https://scangoassets.blob.core.windows.net/aislesimages/abarrotes.png'),
-    ('Belleza', 'https://scangoassets.blob.core.windows.net/aislesimages/belleza.png'),
-    ('Juguetes', 'https://scangoassets.blob.core.windows.net/aislesimages/juguetes.png'),
-    ('Limpieza', 'https://scangoassets.blob.core.windows.net/aislesimages/limpieza.png'),
-    ('Vegetales', 'https://scangoassets.blob.core.windows.net/aislesimages/veg.png');
-
 CREATE TABLE products (
   code VARCHAR(45) NOT NULL PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
   description VARCHAR(75),
   price DECIMAL(8, 2) NOT NULL,
   stock DECIMAL(8, 3) NOT NULL DEFAULT 0,
-  imageURL VARCHAR(100),
+  imageURL VARCHAR(100) NOT NULL,
   brandId INT NOT NULL,
   aisleId INT NOT NULL,
 
@@ -86,6 +62,26 @@ CREATE TABLE products (
   CHECK (price > 0),
   CHECK (stock >= 0)
 );
+
+INSERT INTO brands (id, name, imageURL)
+VALUES
+    (1, 'Puppy', 'https://scangoassets.blob.core.windows.net/brandsimages/aw_cat.png'),
+    (2, 'Kitty', 'https://scangoassets.blob.core.windows.net/brandsimages/super_puppy.png');
+
+
+INSERT INTO aisles (id, name, imageURL)
+VALUES
+    (1, 'Abarrotes', 'https://scangoassets.blob.core.windows.net/aislesimages/abarrotes.png'),
+    (2, 'Belleza', 'https://scangoassets.blob.core.windows.net/aislesimages/belleza.png'),
+    (3, 'Juguetes', 'https://scangoassets.blob.core.windows.net/aislesimages/juguetes.png'),
+    (4, 'Limpieza', 'https://scangoassets.blob.core.windows.net/aislesimages/limpieza.png'),
+    (5, 'Vegetales', 'https://scangoassets.blob.core.windows.net/aislesimages/veg.png');
+
+INSERT INTO products(code, name, description, price, stock, imageURL, brandId, aisleId)
+VALUES ('1234567890', '1 Litro Leche 2 Pinos', 'Caja de 1 litro de leche', 15, 100, 'https://scangoassets.blob.core.windows.net/productsimages/image 1.png', 1, 1),
+  ('2345678901', 'Galón de suavizante', 'Galón de suavizante para lavadora 5k 3mps', 150, 30, 'https://scangoassets.blob.core.windows.net/productsimages/image 5.png', 2, 1),
+  ('3456789012', 'Galó de Cloro M. Blanca', 'Galón de cloro para ropa', 20, 500, 'https://scangoassets.blob.core.windows.net/productsimages/image 6.png', 1, 4),
+  ('4567890123', 'Caja de medallones', 'Caja de medallones 10 u.', 25, 333, 'https://scangoassets.blob.core.windows.net/productsimages/image 6a.png', 2, 5);
 
 -- ================================= WISHLISTS =================================
 CREATE TABLE wishlist_categories (

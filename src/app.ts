@@ -40,5 +40,5 @@ controllers(app)
 
 // starting server
 app.listen(app.get('PORT'), () => {
-  console.log(`⚡️[server]: Server is running at ${process.env.HOST}:${app.get('PORT')}`)
+  console.log(`⚡️[server]: Server is running at ${process.env.HOST}`)
 })

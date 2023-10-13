@@ -37,7 +37,7 @@ export default (): Router => {
     }
   })
 
-  router.post('/:code', (req, res, next) => {
+  router.post('/:code/code', (req, res, next) => {
     PasswordServices.validateRecoveryCode(req.params.code).then((isValid) => {
       if (isValid) {
         if (req.body.password === req.body.confirmPassword) {

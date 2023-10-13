@@ -11,7 +11,7 @@
     "tsc-init": "tsc --init",
     "dev": "nodemon dist/app.js",
     "build:watch": "tsc --build tsconfig.json --watch",
-    "build": "tsc --build tsconfig.json && cp -r src/views dist/views && cp -r src/ca-certificate.crt dist/ca-certificate.crt",
+    "build": "tsc --build tsconfig.json && cp -r src/public dist/public && cp -r src/views dist/views && cp -r src/ca-certificate.crt dist/ca-certificate.crt",
     "lint": "eslint src/**/*.ts",
     "start": "node dist/app.js",
     "build:digitalocean": "yarn install --production=false && yarn run build && rm -rf node_modules && yarn install --production --frozen-lockfile && cp -r src/views dist/views && cp -r src/ca-certificate.crt dist/ca-certificate.crt"

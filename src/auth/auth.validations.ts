@@ -57,5 +57,5 @@ export function isValidEmail (email: string): boolean {
     throw new DataError('Por favor, verifique que su email sea válido.')
   }
 
-  return true;
+  return true
 }

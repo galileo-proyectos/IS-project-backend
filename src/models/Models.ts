@@ -19,7 +19,7 @@ export const Product = db.define('products', {
 export const Aisle = db.define('aisles', {
   id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, allowNull: false, unique: true },
-  imageURL: { type: DataTypes.STRING , allowNull: false }
+  imageURL: { type: DataTypes.STRING, allowNull: false }
 },
 {
   createdAt: false,
@@ -39,14 +39,14 @@ export const Promotion = db.define('promotions', {
 {
   createdAt: false,
   updatedAt: false
-});
+})
 
 export const PromotionDetail = db.define('', {
-  id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true, },
+  id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true },
   productCode: { type: DataTypes.STRING, allowNull: false },
   discountValue: { type: DataTypes.DECIMAL, allowNull: false }
 },
 {
   createdAt: false,
   updatedAt: false
-});
+})

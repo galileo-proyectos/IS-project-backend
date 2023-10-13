@@ -8,13 +8,13 @@ import ValidationError from '../utils/ValidationError'
 import { isValidEmail } from '../auth/auth.validations'
 
 export async function sendRecoveryPasswordEmail (email: string): Promise<void> {
-  if (isValidEmail (email)) {
+  if (isValidEmail(email)) {
     const user = await PasswordDAO.readByEmail(email)
-  
+
     if (user !== null) {
       const code = uuidv4()
       await PasswordDAO.storeRecoveryCode(user.id, code)
-  
+
       const recoveryPageURL = `${PasswordConst.RECOVEY_PAGE}/${code}`
       const htmlBody = `
           <table cellspacing="0" cellpadding="0" border="0" align="center" width="600" style="border-collapse: collapse">

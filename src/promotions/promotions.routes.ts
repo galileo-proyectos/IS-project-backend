@@ -4,16 +4,14 @@ import * as PromotionServices from './promotions.services'
 export default (): Router => {
   const router = Router()
 
-  router.get('/', async (req, res, next) => {
-    try {
+  router.get('/', (req, res, next) => {
+    PromotionServices.readAvailable().then((results) => {
       res.successResponse({
         message: 'ok',
-        results: await PromotionServices.readAvailable()
+        results
       })
-    } catch (error) {
-      next(error)
-    }
-  })  
+    }).catch(next)
+  })
 
   return router
 }

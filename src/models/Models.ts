@@ -19,7 +19,7 @@ export const Product = db.define('products', {
 export const Aisle = db.define('aisles', {
   id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
   name: { type: DataTypes.STRING, allowNull: false, unique: true },
-  imageURL: { type: DataTypes.STRING }
+  imageURL: { type: DataTypes.STRING , allowNull: false }
 },
 {
   createdAt: false,

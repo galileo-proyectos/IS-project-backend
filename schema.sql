@@ -58,22 +58,17 @@ VALUES
 CREATE TABLE aisles (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(20) UNIQUE,
-  imageURL VARCHAR(100)
+  imageURL VARCHAR(100) NOT NULL
 );
 
 -- Inserting test data into the aisles table
 INSERT INTO aisles (name, imageURL)
 VALUES
-    ('Fruits', NULL),
-    ('Vegetables', NULL),
-    ('Dairy', NULL),
-    ('Meat', NULL),
-    ('Bakery', NULL),
-    ('Canned Goods', NULL),
-    ('Frozen Foods', NULL),
-    ('Snacks', NULL),
-    ('Beverages', NULL),
-    ('Personal Care', NULL);
+    ('Abarrotes', 'https://scangoassets.blob.core.windows.net/aislesimages/abarrotes.png'),
+    ('Belleza', 'https://scangoassets.blob.core.windows.net/aislesimages/belleza.png'),
+    ('Juguetes', 'https://scangoassets.blob.core.windows.net/aislesimages/juguetes.png'),
+    ('Limpieza', 'https://scangoassets.blob.core.windows.net/aislesimages/limpieza.png'),
+    ('Vegetales', 'https://scangoassets.blob.core.windows.net/aislesimages/veg.png');
 
 CREATE TABLE products (
   code VARCHAR(45) NOT NULL PRIMARY KEY,
@@ -91,19 +86,6 @@ CREATE TABLE products (
   CHECK (price > 0),
   CHECK (stock >= 0)
 );
-
-INSERT INTO products (code, name, price, stock, brandId, aisleId)
-VALUES
-  ('1234567890', 'Apple', 0.3, 100, 1, 1),
-  ('2345678901', 'Tomato', 0.2, 100, 2, 2),
-  ('3456789012', 'Milk', 2, 100, 3, 3),
-  ('4567890123', 'Tenderloin lb', 10, 100, 4, 4),
-  ('5678901234', 'Cookies mix', 3, 100, 5, 5),
-  ('6789012345', 'Dog food', 3, 100, 6, 6),
-  ('7890123456', 'Frozen french fries', 5, 100, 7, 7),
-  ('8901234567', 'Lays', 1, 100, 8, 8),
-  ('9012345678', 'Pepsi', 1.5, 100, 9, 9),
-  ('0123456789', 'Soap', 7, 100, 10, 10);
 
 -- ================================= WISHLISTS =================================
 CREATE TABLE wishlist_categories (

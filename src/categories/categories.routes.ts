@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import * as AisleServices from './aisles.services'
+import * as AisleServices from './categories.services'
 
 export default (): Router => {
   const router = Router()

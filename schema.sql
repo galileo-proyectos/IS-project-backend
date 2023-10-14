@@ -40,10 +40,15 @@ CREATE TABLE brands (
   imageURL VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE aisles (
+CREATE TABLE categories (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(20) UNIQUE,
   imageURL VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE aisles (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(20) UNIQUE
 );
 
 CREATE TABLE products (
@@ -54,10 +59,12 @@ CREATE TABLE products (
   stock DECIMAL(8, 3) NOT NULL DEFAULT 0,
   imageURL VARCHAR(100) NOT NULL,
   brandId INT NOT NULL,
+  categoryId INT NOT NULL,
   aisleId INT NOT NULL,
 
   FOREIGN KEY(brandId) REFERENCES brands(id),
   FOREIGN KEY(aisleId) REFERENCES aisles(id),
+  FOREIGN KEY(categoryId) REFERENCES categories(id),
 
   CHECK (price > 0),
   CHECK (stock >= 0)
@@ -69,7 +76,7 @@ VALUES
     (2, 'Kitty', 'https://scangoassets.blob.core.windows.net/brandsimages/super_puppy.png');
 
 
-INSERT INTO aisles (id, name, imageURL)
+INSERT INTO categories (id, name, imageURL)
 VALUES
     (1, 'Abarrotes', 'https://scangoassets.blob.core.windows.net/aislesimages/abarrotes.png'),
     (2, 'Belleza', 'https://scangoassets.blob.core.windows.net/aislesimages/belleza.png'),
@@ -77,11 +84,19 @@ VALUES
     (4, 'Limpieza', 'https://scangoassets.blob.core.windows.net/aislesimages/limpieza.png'),
     (5, 'Vegetales', 'https://scangoassets.blob.core.windows.net/aislesimages/veg.png');
 
-INSERT INTO products(code, name, description, price, stock, imageURL, brandId, aisleId)
-VALUES ('1234567890', '1 Litro Leche 2 Pinos', 'Caja de 1 litro de leche', 15, 100, 'https://scangoassets.blob.core.windows.net/productsimages/image 1.png', 1, 1),
-  ('2345678901', 'Galón de suavizante', 'Galón de suavizante para lavadora 5k 3mps', 150, 30, 'https://scangoassets.blob.core.windows.net/productsimages/image 5.png', 2, 1),
-  ('3456789012', 'Galó de Cloro M. Blanca', 'Galón de cloro para ropa', 20, 500, 'https://scangoassets.blob.core.windows.net/productsimages/image 6.png', 1, 4),
-  ('4567890123', 'Caja de medallones', 'Caja de medallones 10 u.', 25, 333, 'https://scangoassets.blob.core.windows.net/productsimages/image 6a.png', 2, 5);
+INSERT INTO aisles (id, name)
+VALUES
+    (1, 'Insumos'),
+    (2, 'Cuidado personal'),
+    (3, 'Juguetes'),
+    (4, 'Hogar'),
+    (5, 'Alimentos');
+
+INSERT INTO products(code, name, description, price, stock, imageURL, brandId, categoryId, aisleId)
+VALUES ('1234567890', '1 Litro Leche 2 Pinos', 'Caja de 1 litro de leche', 15, 100, 'https://scangoassets.blob.core.windows.net/productsimages/image 1.png', 1, 1, 1),
+  ('2345678901', 'Galón de suavizante', 'Galón de suavizante para lavadora 5k 3mps', 150, 30, 'https://scangoassets.blob.core.windows.net/productsimages/image 5.png', 2, 1, 1),
+  ('3456789012', 'Galó de Cloro M. Blanca', 'Galón de cloro para ropa', 20, 500, 'https://scangoassets.blob.core.windows.net/productsimages/image 6.png', 1, 4, 4),
+  ('4567890123', 'Caja de medallones', 'Caja de medallones 10 u.', 25, 333, 'https://scangoassets.blob.core.windows.net/productsimages/image 6a.png', 2, 5, 5);
 
 -- ================================= WISHLISTS =================================
 CREATE TABLE wishlist_categories (

@@ -1,13 +1,13 @@
 import NotFoundError from '../utils/NotFoundError'
 import type { Model } from 'sequelize'
-import { Aisle } from '../models/Models'
+import { Category } from '../models/Models'
 
 export async function readAll (): Promise<Model[]> {
-  return await Aisle.findAll()
+  return await Category.findAll()
 }
 
 export async function readOne (id: number): Promise<Model> {
-  const aisle = await Aisle.findOne({ where: { id } })
+  const aisle = await Category.findOne({ where: { id } })
 
   if (aisle !== null) {
     return aisle

@@ -6,14 +6,14 @@ export default (): Router => {
 
   router.get('/', (req, res, next) => {
     // allowed queries
+    let name: string | null = null
+    if (typeof req.query.name === 'string' && req.query.name.trim().length > 2) {
+      name = req.query.name
+    }
+
     let brandId: number | null = null
     if (typeof req.query.brandId === 'string' && req.query.brandId.trim().length !== 0) {
       brandId = parseInt(req.query.brandId)
-    }
-
-    let aisleId: number | null = null
-    if (typeof req.query.aisleId === 'string' && req.query.aisleId.trim().length !== 0) {
-      aisleId = parseInt(req.query.aisleId)
     }
 
     let fromPrice: number | null = null
@@ -26,7 +26,7 @@ export default (): Router => {
       toPrice = parseInt(req.query.toPrice)
     }
 
-    ProductServices.readAll({ brandId, aisleId, fromPrice, toPrice }).then((results) => {
+    ProductServices.readAll({ name, brandId, fromPrice, toPrice }).then((results) => {
       res.successResponse({
         message: 'ok',
         results

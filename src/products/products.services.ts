@@ -1,10 +1,11 @@
 import NotFoundError from '../utils/NotFoundError'
 import type { Model, WhereOptions } from 'sequelize'
-import { Aisle, Brand, Category, Product } from '../models/Models'
+import { Product } from '../models/Models'
 import { Op } from 'sequelize'
 
 interface ReadFilters {
   name: string | null
+  categoryId: number | null
   brandId: number | null
   fromPrice: number | null
   toPrice: number | null
@@ -17,6 +18,10 @@ export async function readAll (filters: ReadFilters): Promise<Array<Model<Read.P
     sqWhere.name = {
       [Op.like]: `%${filters.name}%`
     }
+  }
+
+  if (filters.categoryId !== null) {
+    sqWhere.categoryId = filters.categoryId
   }
 
   if (filters.brandId !== null) {
@@ -32,7 +37,7 @@ export async function readAll (filters: ReadFilters): Promise<Array<Model<Read.P
   return await Product.findAll({
     where: sqWhere,
     limit: 50,
-    include: [Category, Brand, Aisle]
+    include: [{ all: true }]
   })
 }
 

@@ -28,8 +28,8 @@ export const Category = db.define('categories', {
 // association config
 Category.hasMany(Product, {
   foreignKey: 'categoryId'
-});
-Product.belongsTo(Category);
+})
+Product.belongsTo(Category)
 
 // ========= Brand =========
 export const Brand = db.define('brands', {
@@ -44,8 +44,8 @@ export const Brand = db.define('brands', {
 // association config
 Brand.hasMany(Product, {
   foreignKey: 'brandId'
-});
-Product.belongsTo(Brand);
+})
+Product.belongsTo(Brand)
 
 // ========= Brand =========
 export const Aisle = db.define('aisles', {
@@ -59,8 +59,8 @@ export const Aisle = db.define('aisles', {
 // association config
 Aisle.hasMany(Product, {
   foreignKey: 'aisleId'
-});
-Product.belongsTo(Aisle);
+})
+Product.belongsTo(Aisle)
 
 // ========= Promotion =========
 export const Promotion = db.define('promotions', {

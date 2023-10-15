@@ -11,6 +11,11 @@ export default (): Router => {
       name = req.query.name
     }
 
+    let categoryId: number | null = null
+    if (typeof req.query.categoryId === 'string' && req.query.categoryId.trim().length !== 0) {
+      categoryId = parseInt(req.query.categoryId)
+    }
+
     let brandId: number | null = null
     if (typeof req.query.brandId === 'string' && req.query.brandId.trim().length !== 0) {
       brandId = parseInt(req.query.brandId)
@@ -26,7 +31,7 @@ export default (): Router => {
       toPrice = parseInt(req.query.toPrice)
     }
 
-    ProductServices.readAll({ name, brandId, fromPrice, toPrice }).then((results) => {
+    ProductServices.readAll({ name, categoryId, brandId, fromPrice, toPrice }).then((results) => {
       res.successResponse({
         message: 'ok',
         results

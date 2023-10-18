@@ -42,7 +42,7 @@ export async function readAll (filters: ReadFilters): Promise<Array<Model<Read.P
 }
 
 export async function readOne (code: string): Promise<Model<Read.Product, Read.Product>> {
-  const product = await Product.findOne({ where: { code } })
+  const product = await Product.findOne({ where: { code }, include: [{ all: true }] })
 
   if (product !== null) {
     return product

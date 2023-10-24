@@ -1,6 +1,6 @@
+import Category from '../models/Category'
 import NotFoundError from '../utils/NotFoundError'
 import type { Model } from 'sequelize'
-import { Category } from '../models/Models'
 
 export async function readAll (): Promise<Model[]> {
   return await Category.findAll()

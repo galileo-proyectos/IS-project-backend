@@ -1,6 +1,6 @@
 import NotFoundError from '../utils/NotFoundError'
 import type { Model, WhereOptions } from 'sequelize'
-import { Product } from '../models/Models'
+import Product from '../models/Product'
 import { Op } from 'sequelize'
 
 interface ReadFilters {

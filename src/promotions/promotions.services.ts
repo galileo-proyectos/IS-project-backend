@@ -1,7 +1,8 @@
-import { Promotion } from '../models/Models'
+
 import { Op } from 'sequelize'
 import type { Model } from 'sequelize'
 import PromotionsConst from './promotions.const'
+import Promotion from '../models/Promotion'
 
 export async function readAvailable (): Promise<Model[]> {
   const today = new Date()

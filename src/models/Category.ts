@@ -16,10 +16,6 @@ Category.init({
 {
   sequelize: db,
   createdAt: false,
-  updatedAt: false
+  updatedAt: false,
+  modelName: 'category'
 })
-// association config
-Category.hasMany(Product, {
-  foreignKey: 'categoryId'
-})
-Product.belongsTo(Category)

@@ -16,10 +16,6 @@ Brand.init({
 {
   sequelize: db,
   createdAt: false,
-  updatedAt: false
+  updatedAt: false,
+  modelName: 'brand'
 })
-// association config
-Brand.hasMany(Product, {
-  foreignKey: 'brandId'
-})
-Product.belongsTo(Brand)

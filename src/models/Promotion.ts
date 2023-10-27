@@ -25,5 +25,6 @@ Promotion.init({
 {
   sequelize: db,
   createdAt: false,
-  updatedAt: false
+  updatedAt: false,
+  tableName: 'promotions'
 })

@@ -14,10 +14,6 @@ Aisle.init({
 {
   sequelize: db,
   createdAt: false,
-  updatedAt: false
+  updatedAt: false,
+  modelName: 'aisle'
 })
-// association config
-Aisle.hasMany(Product, {
-  foreignKey: 'aisleId'
-})
-Product.belongsTo(Aisle)

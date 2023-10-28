@@ -5,7 +5,7 @@ import { Op } from 'sequelize'
 
 interface ReadFilters {
   name: string | null
-  categoryId: number | null
+  categoryIds: number[] | null
   brandId: number | null
   fromPrice: number | null
   toPrice: number | null
@@ -20,8 +20,10 @@ export async function readAll (filters: ReadFilters): Promise<Array<Model<Read.P
     }
   }
 
-  if (filters.categoryId !== null) {
-    sqWhere.categoryId = filters.categoryId
+  if (filters.categoryIds !== null) {
+    sqWhere.categoryId = {
+      [Op.in]: filters.categoryIds
+    }
   }
 
   if (filters.brandId !== null) {

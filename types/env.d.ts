@@ -14,6 +14,8 @@ declare global {
       DB_PASSWORD: string;
       DB_NAME: string;
       DB_CONNECTION_LIMIT: string;
+
+      STRIPE_SECRET_KEY: string;
     }
   }
 }

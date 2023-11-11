@@ -1,4 +1,3 @@
-
 import { Op } from 'sequelize'
 import type { Model } from 'sequelize'
 import PromotionsConst from './promotions.const'

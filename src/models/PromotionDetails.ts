@@ -1,5 +1,5 @@
-import { DataTypes, Model } from "sequelize"
-import { db } from "../SequelizeConnection"
+import { DataTypes, Model } from 'sequelize'
+import { db } from '../SequelizeConnection'
 
 export default class PromotionDetail extends Model {
   declare id: number

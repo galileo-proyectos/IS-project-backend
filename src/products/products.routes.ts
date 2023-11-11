@@ -15,7 +15,7 @@ export default (): Router => {
     if (typeof req.query.categoryIds === 'string' && req.query.categoryIds.trim().length !== 0) {
       categoryIds = req.query.categoryIds.split(',').map((id) => parseInt(id))
     }
-    
+
     let brandId: number | null = null
     if (typeof req.query.brandId === 'string' && req.query.brandId.trim().length !== 0) {
       brandId = parseInt(req.query.brandId)

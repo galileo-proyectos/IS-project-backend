@@ -1,9 +1,10 @@
 import { query } from '../DBConnetion'
 
-export async function create (data: Create.User): Promise<number> {
+export async function create (data: Create.User, stripUserId: string): Promise<number> {
   const sql = 'INSERT INTO users SET ?'
   const { insertId } = await query(sql, {
     email: data.email,
+    stripUserId,
     password: data.password,
     bornDate: data.bornDate !== null ? new Date(data.bornDate) : null,
     phone: data.phone,
@@ -46,7 +47,7 @@ export async function existsEmail (email: string): Promise<boolean> {
 export async function readPassword (email: string): Promise<Read.UserWithPassword | null> {
   const sql = `
     SELECT
-      id,email,password
+      id,email,stripUserId,password
     FROM users
     WHERE email='${email}'
     LIMIT 1

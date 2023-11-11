@@ -11,7 +11,7 @@ USE SCAN_GO;
 -- ================================= USERS =================================
 CREATE TABLE users (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  -- stripUserId INT NOT NULL UNIQUE DEFAULT id,
+  stripUserId VARCHAR(30) NOT NULL UNIQUE,
   email VARCHAR(50) NOT NULL UNIQUE,
   password CHAR(60) NOT NULL,
   bornDate TIMESTAMP,

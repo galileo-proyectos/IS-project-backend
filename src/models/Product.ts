@@ -1,5 +1,5 @@
 import { db } from '../SequelizeConnection'
-import { DataTypes, Model } from "sequelize"
+import { DataTypes, Model } from 'sequelize'
 import Aisle from './Aisle'
 import Brand from './Brand'
 import Category from './Category'

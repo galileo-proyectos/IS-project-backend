@@ -1,6 +1,5 @@
-import { DataTypes, Model } from "sequelize"
+import { DataTypes, Model } from 'sequelize'
 import { db } from '../SequelizeConnection'
-import Product from "./Product"
 
 export default class Category extends Model {
   declare id: number

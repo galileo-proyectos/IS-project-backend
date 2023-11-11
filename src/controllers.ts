@@ -11,6 +11,7 @@ import productsRoutes from './products/products.routes'
 import passwordRoutes from './password_recovery/password.routes'
 import promotionsRoutes from './promotions/promotions.routes'
 import categoriesRoutes from './categories/categories.routes'
+import cartsRoutes from './carts/carts.routes'
 
 export default (app: Application): void => {
   // signin, signup, password recovery
@@ -26,6 +27,7 @@ export default (app: Application): void => {
   app.use('/api/v1/products', productsRoutes())
   app.use('/api/v1/categories', categoriesRoutes())
   app.use('/api/v1/promotions', promotionsRoutes())
+  app.use('/api/v1/cart', cartsRoutes())
 
   // error route
   app.use((error: Error, req: Request, res: Response, next: NextFunction) => {

@@ -1,6 +1,5 @@
 import { db } from '../SequelizeConnection'
-import { DataTypes, Model } from "sequelize"
-import Product from './Product'
+import { DataTypes, Model } from 'sequelize'
 
 export default class Aisle extends Model {
   declare id: number

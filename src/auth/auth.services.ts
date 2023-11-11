@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt'
 import * as AuthValidations from './auth.validations'
 import * as AuthDAO from './auth.db'
 import ValidationError from '../utils/ValidationError'
+import stripe from '../utils/Stripe'
 
 /**
  *
@@ -13,13 +14,15 @@ import ValidationError from '../utils/ValidationError'
 export async function registerUser (data: Create.User): Promise<number> {
   // validate data
   if (await AuthValidations.registerValidations(data)) {
+    // store in stripe
+    const stripeCustomer = await stripe.customers.create({
+      email: data.email,
+      phone: data.phone ?? undefined
+    })
+
     // store in db
     data.password = await hashString(data.password)
-    const userId = await AuthDAO.create(data)
-
-    // store in stripe
-
-    // update stripUserId
+    const userId = await AuthDAO.create(data, stripeCustomer.id)
 
     return userId
   }
@@ -49,7 +52,8 @@ export async function signin (login: Auth.LogIn): Promise<string> {
       // jwt
       const jwt = await generateJWT({
         id: userData.id,
-        email: userData.email
+        email: userData.email,
+        stripeUserId: userData.stripUserId
       })
 
       // store jwt in db

@@ -9,6 +9,7 @@ declare global {
 
     interface JWTPayload {
       id: number
+      stripeUserId: string
       email: string
     }
   }

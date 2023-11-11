@@ -5,11 +5,12 @@ declare global {
     interface User {
       id: number
       email: string
+      stripUserId: string;
       bornDate: number?;
       phone: string?;
       imageURL: string?
     }
-    interface UserWithPassword extends User{
+    interface UserWithPassword extends User {
       password: string
     }
 

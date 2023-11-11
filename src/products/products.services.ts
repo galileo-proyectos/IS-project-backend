@@ -38,7 +38,7 @@ export async function readAll (filters: ReadFilters): Promise<Array<Model<Read.P
 
   return await Product.findAll({
     where: sqWhere,
-    limit: 50,
+    limit: 15,
     include: [{ all: true }]
   })
 }

@@ -54,7 +54,7 @@ CREATE TABLE aisles (
 CREATE TABLE products (
   code VARCHAR(45) NOT NULL PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
-  description VARCHAR(75),
+  description TEXT,
   price DECIMAL(8, 2) NOT NULL,
   stock DECIMAL(8, 3) NOT NULL DEFAULT 0,
   imageURL VARCHAR(100) NOT NULL,

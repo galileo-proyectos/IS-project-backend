@@ -17,7 +17,6 @@ declare global {
     interface CartDetail {
       productCode: string
       quantity: number
-      price: number
     }
   }
 }

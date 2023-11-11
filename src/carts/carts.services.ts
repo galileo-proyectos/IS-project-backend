@@ -1,9 +1,10 @@
 import stripe from '../utils/Stripe'
-import * as ProductSVC from '../products/products.services'
+import * as PromotionSVC from '../promotions/promotions.services'
+import DataError from '../utils/ClientError';
 
-export async function createPurcahse (cart: Create.Cart, stripUserId: string, cardID: string): Promise<void> {
+export async function createPurcahse (cart: Create.Cart, user: Auth.JWTPayload, cardID: string): Promise<void> {
   // apply promotions
-  const cartWithPromotions = await applyPromotionsToDetails(cart);
+  const cartWithPromotions = await PromotionSVC.applyPromotionsToCart(cart);
 
   // calc total
   let total = 0;
@@ -11,34 +12,25 @@ export async function createPurcahse (cart: Create.Cart, stripUserId: string, ca
     total += detail.quantity * detail.price;
   })
 
-  // consume supermarket webservice
-  // ...
-
-  // process payment
-  await processCartPayWithStripe(total, stripUserId, cardID);
-}
-
-export async function applyPromotionsToDetails (cart: Create.Cart): Promise<Read.Cart> {
-  // logic to apply promotions goes here
-  const detailsWithPromotions: Read.CartDetail[] = []
-  for (const detail of cart.details) {
-    const product = await ProductSVC.readOne(detail.productCode);
-
-    detailsWithPromotions.push({
-      productCode: detail.productCode,
-      quantity: detail.quantity,
-      price: product.price * 0.5, // this is the promotion hehehe
-      priceOld: detail.price
-    })
+  if (total >= 25) {
+    // consume supermarket webservice
+    // ...
+  
+    // process payment
+    await processCartPayWithStripe(total, user, cardID);
+  } else {
+    throw new DataError('El pago por medio de la aplicación solo está disponible para compras mayores a Q25.00')
   }
-
-  return { details: detailsWithPromotions };
 }
 
-export async function processCartPayWithStripe (total: number, stripeUserId: string, cardID: string): Promise<void> {
+export async function applyPromotions (cart: Create.Cart): Promise<Read.Cart> {
+  return await PromotionSVC.applyPromotionsToCart(cart);
+}
+
+export async function processCartPayWithStripe (total: number, user: Auth.JWTPayload, cardID: string): Promise<void> {
   // create payment method
   await stripe.paymentIntents.create({
-    customer: stripeUserId,
+    customer: user.stripeUserId,
     amount: total * 100,
     currency: 'GTQ',
     confirm: true,
@@ -47,5 +39,7 @@ export async function processCartPayWithStripe (total: number, stripeUserId: str
       enabled: true,
       allow_redirects: 'never'
     },
+    description: "Gracias por su compra en Supermercados La Torre!",
+    receipt_email: user.email,
   })
 }

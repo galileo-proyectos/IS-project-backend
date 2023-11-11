@@ -10,5 +10,14 @@ declare global {
       acceptPromotions: boolean
       acceptTerms: boolean
     }
+
+    interface Cart {
+      details: CartDetail[]
+    }
+    interface CartDetail {
+      productCode: string
+      quantity: number
+      price: number
+    }
   }
 }

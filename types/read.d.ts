@@ -36,5 +36,15 @@ declare global {
       aisleId: number;
       aisle: Aisle?;
     }
+
+    interface Cart {
+      details: CartDetail[]
+    }
+    interface CartDetail {
+      productCode: string;
+      quantity: number;
+      price: number;
+      priceOld: number;
+    }
   }
 }

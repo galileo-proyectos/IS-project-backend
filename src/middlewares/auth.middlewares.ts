@@ -10,13 +10,7 @@ export function authMiddleware (req: Request, res: Response, next: NextFunction)
       // right JWT
       if (userData !== null) {
         // current JWT
-        /* AuthServices.isCurrentJWT(userData.id, token).then((isValid) => {
-          if (isValid) {
-            next()
-          } else {
-            throw new ForbiddenError('Tu sesión ha terminado')
-          }
-        }).catch(next) */
+        req.user = userData;
         next()
       } else {
         throw new ForbiddenError('Tu token es inválido')

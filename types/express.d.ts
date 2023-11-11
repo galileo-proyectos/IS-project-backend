@@ -15,5 +15,9 @@ declare global {
       notFoundErrorRespose: (message: string) => void,
       okResponse: () => void
     }
+
+    interface Request {
+      user: Auth.JWTPayload
+    }
   }
 }

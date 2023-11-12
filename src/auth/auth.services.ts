@@ -37,6 +37,14 @@ export async function changePassword (userId: number, rawPassword: string): Prom
   }
 }
 
+export async function readPaymentIntent (userId: number): Promise<string | null> {
+  return await AuthDAO.readPaymentIntent(userId);
+}
+
+export async function updatePaymentIntent (userId: number, paymentIntent: string): Promise<void> {
+  await AuthDAO.updatePaymentIntent(userId, paymentIntent);
+}
+
 /**
    * this method is used to generate a JWT for a user
    * @param login user's email and password

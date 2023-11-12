@@ -4,6 +4,12 @@ import * as CartServices from './carts.services'
 export default (): Router => {
   const router = Router()
 
+  router.get('/payment_intent', (req, res, next) => {
+    CartServices.createIntent(req.user.id).then((results) => {
+      res.successResponse({ message: 'ok', results })
+    }).catch(next)
+  })
+
   router.post('/complete_purchase', (req, res, next) => {
     CartServices.createPurcahse(req.body.cart, req.user, req.body.token).then(() => {
       res.successResponse({ message: 'Payment completed', results: null })

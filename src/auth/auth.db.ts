@@ -1,4 +1,5 @@
 import { query } from '../DBConnetion'
+import DataError from '../utils/ClientError'
 
 export async function create (data: Create.User, stripUserId: string): Promise<number> {
   const sql = 'INSERT INTO users SET ?'
@@ -21,6 +22,26 @@ export async function changePassword (userId: number, password: string): Promise
     LIMIT 1
   `
   await query(sql)
+}
+
+export async function readPaymentIntent (userId: number): Promise<string | null> {
+  const sql = `
+    SELECT paymentIntent
+    FROM users
+    WHERE id=${userId}
+    LIMIT 1
+  `
+  const data = await query(sql) as Array<{ paymentIntent: string | null }>
+  if (data.length > 0) {
+    return data[0].paymentIntent
+  } else {
+    throw new DataError('No se encontró el usuario');
+  }
+}
+
+export async function updatePaymentIntent (userId: number, paymentIntent: string): Promise<void> {
+  const sql = `UPDATE users SET ? WHERE id=${userId}`
+  await query(sql, { paymentIntent })
 }
 
 /**

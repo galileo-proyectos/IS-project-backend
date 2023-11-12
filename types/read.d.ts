@@ -6,6 +6,7 @@ declare global {
       id: number
       email: string
       stripUserId: string;
+      paymentIntent: string;
       bornDate: number?;
       phone: string?;
       imageURL: string?

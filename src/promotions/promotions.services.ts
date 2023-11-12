@@ -2,7 +2,7 @@ import { Op } from 'sequelize'
 import type { Model } from 'sequelize'
 import PromotionsConst from './promotions.const'
 import Promotion from '../models/Promotion'
-import * as ProductSVC from '../products/products.services'
+import { query } from '../DBConnetion'
 
 export async function readAvailable (): Promise<Model[]> {
   const today = new Date()
@@ -20,18 +20,27 @@ export async function readAvailable (): Promise<Model[]> {
   })
 }
 
-export async function applyPromotionsToCart (cart: Create.Cart): Promise<Read.Cart> {
-  const detailsWithPromotions: Read.CartDetail[] = []
+export async function calcDiscount (cart: Create.Cart): Promise<number> {
+  let discount = 0;
+
   for (const detail of cart.details) {
-    const product = await ProductSVC.readOne(detail.productCode);
-
-    detailsWithPromotions.push({
-      productCode: detail.productCode,
-      quantity: detail.quantity,
-      price: product.price * 0.90, // this is the promotion hehehe
-      priceOld: product.price
-    })
+    let sql = `
+      SELECT MAX(D.discountValue) AS value FROM promotion_details D
+      INNER JOIN promotions P ON D.promotionId = P.id
+      WHERE
+        D.productCode=${detail.productCode}
+        AND
+        P.isActivated=${PromotionsConst.PROMO_ACTIVATED}
+        AND
+        P.startDate < NOW()
+        AND
+        P.endDate > NOW()
+    `;
+    const discountValues = await query(sql) as { value: number}[];
+    if (discountValues.length !== 0) {
+      discount += discountValues[0].value * detail.price * detail.quantity;
+    }
   }
-
-  return { details: detailsWithPromotions };
+  
+  return discount;
 }

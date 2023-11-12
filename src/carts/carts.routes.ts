@@ -4,8 +4,8 @@ import * as CartServices from './carts.services'
 export default (): Router => {
   const router = Router()
 
-  router.get('/payment_intent', (req, res, next) => {
-    CartServices.createIntent(req.user.id).then((results) => {
+  router.post('/payment_intent', (req, res, next) => {
+    CartServices.createIntent(req.user.id, req.body.total).then((results) => {
       res.successResponse({ message: 'ok', results })
     }).catch(next)
   })

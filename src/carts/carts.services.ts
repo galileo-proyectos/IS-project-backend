@@ -6,26 +6,18 @@ import Stripe from 'stripe'
 
 import * as AuthSVC from '../auth/auth.services'
 
-export async function createIntent (userId: number): Promise<Stripe.PaymentIntent> {
-  // read stripe intent
-  let paymentIntentId = await AuthSVC.readPaymentIntent(userId);
+export async function createIntent (userId: number, total: number): Promise<Stripe.PaymentIntent> {
+  // create stripe intent
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: total * 100,
+    currency: 'GTQ',
+    automatic_payment_methods: { enabled: true, allow_redirects: 'never' },
+  });
 
-  if (paymentIntentId === null) {
-    // create stripe intent
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: 2000,
-      currency: 'GTQ',
-      automatic_payment_methods: { enabled: true, allow_redirects: 'never' },
-    });
+  // store in db
+  await AuthSVC.updatePaymentIntent(userId, paymentIntent.id);
 
-    // store in db
-    await AuthSVC.updatePaymentIntent(userId, paymentIntent.id);
-
-    return paymentIntent;
-  } else {
-    // read stripe intent
-    return await stripe.paymentIntents.retrieve(paymentIntentId);
-  }
+  return paymentIntent;
 }
 
 export async function createPurcahse (cart: Create.Cart, user: Auth.JWTPayload, cardID: string): Promise<void> {

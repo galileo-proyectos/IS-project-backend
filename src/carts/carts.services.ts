@@ -1,6 +1,5 @@
 import stripe from '../utils/Stripe'
 import * as PromotionSVC from '../promotions/promotions.services'
-import DataError from '../utils/ClientError';
 
 import Stripe from 'stripe'
 
@@ -10,7 +9,7 @@ export async function createIntent (user: Auth.JWTPayload, total: number): Promi
   // create stripe intent
   const paymentIntent = await stripe.paymentIntents.create({
     customer: user.stripeUserId,
-    amount: total * 100,
+    amount: parseInt((total * 100).toFixed(0)),
     currency: 'GTQ',
     automatic_payment_methods: { enabled: true, allow_redirects: 'never' },
     description: "Gracias por su compra en Supermercados La Torre!",

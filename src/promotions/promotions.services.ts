@@ -20,7 +20,7 @@ export async function readAvailable (): Promise<Model[]> {
   })
 }
 
-export async function calcDiscount (cart: Create.Cart): Promise<number> {
+export async function calcDiscount (cart: Create.Cart): Promise<number> {  
   let discount = 0;
 
   for (const detail of cart.details) {
